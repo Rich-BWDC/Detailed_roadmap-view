@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BWDC Product Team 2026 — Interactive Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F2EDE3; --cream-dark: #E8E1D3; --forest: #1E2E23; --forest-mid: #2D3B2D;
+  --forest-light: #3D5240; --teal: #4A9B8E; --teal-light: #7EC8BE; --teal-pale: #D4EDEA;
+  --gold: #C8903A; --gold-pale: #F5E6CC; --gold-bright: #D4A042;
+  --rose: #C97B6A; --rose-pale: #F5DDD8; --sage: #7A9E7E; --sage-pale: #DFF0E0;
+  --white: #fff; --text: #3A3A2E; --muted: #7A7A6A; --border: #D8D0C0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); font-size: 13px; }
+
+/* HEADER */
+.header { background: var(--forest); color: var(--cream); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+.header-left h1 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
+.header-left h1 em { font-style: italic; color: var(--teal-light); }
+.header-sub { font-size: 11px; color: rgba(242,237,227,0.5); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.legend { display: flex; gap: 12px; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: rgba(242,237,227,0.7); }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+/* TEAM FILTER */
+.toolbar { background: var(--forest-mid); padding: 10px 32px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 2px solid var(--gold); }
+.filter-label { font-size: 11px; color: rgba(242,237,227,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
+.filter-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(242,237,227,0.8); padding: 5px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
+.progress-summary { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(242,237,227,0.7); }
+.overall-bar { width: 120px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+.overall-fill { height: 100%; background: var(--teal-light); border-radius: 3px; transition: width 0.5s; }
+
+/* GANTT LAYOUT */
+.gantt-wrap { display: flex; overflow-x: auto; min-height: calc(100vh - 120px); }
+.gantt-sidebar { width: 320px; min-width: 320px; background: var(--white); border-right: 1px solid var(--border); position: sticky; left: 0; z-index: 10; }
+.gantt-body { flex: 1; overflow-x: auto; position: relative; }
+
+/* SIDEBAR HEADER */
+.sidebar-header { background: var(--cream-dark); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); height: 56px; display: flex; align-items: center; }
+
+/* MONTH HEADER */
+.months-header { display: flex; height: 56px; border-bottom: 1px solid var(--border); background: var(--cream-dark); position: sticky; top: 0; z-index: 5; }
+.month-cell { flex: 1; min-width: 80px; border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); padding: 0 8px; }
+.month-cell.current { background: var(--teal-pale); color: var(--teal); }
+
+/* GROUP ROWS */
+.group-row { background: var(--forest); color: var(--cream); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+.group-row:hover { background: var(--forest-mid); }
+.group-chevron { transition: transform 0.2s; font-size: 10px; }
+.group-row.collapsed .group-chevron { transform: rotate(-90deg); }
+.group-bar-row { background: var(--forest); height: 38px; display: flex; align-items: center; position: relative; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+/* INITIATIVE ROWS */
+.init-row { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.init-row:hover { background: #faf9f5; }
+.init-row.hidden { display: none; }
+.init-sidebar { padding: 10px 16px; display: flex; flex-direction: column; gap: 4px; min-height: 72px; justify-content: center; }
+.init-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--forest); line-height: 1.3; }
+.init-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.init-lead { font-size: 11px; color: var(--muted); }
+
+/* PROGRESS BAR */
+.progress-wrap { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.progress-track { flex: 1; height: 4px; background: var(--cream-dark); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+.progress-pct { font-size: 10px; font-weight: 700; color: var(--muted); min-width: 28px; text-align: right; }
+
+/* ASSIGNEE CHIPS */
+.assignees { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 3px; }
+.assignee-chip { display: inline-flex; align-items: center; gap: 3px; background: var(--teal-pale); color: var(--teal); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; cursor: pointer; transition: all 0.15s; }
+.assignee-chip:hover { background: var(--teal); color: white; }
+.assignee-chip.add-btn { background: var(--cream-dark); color: var(--muted); border: 1px dashed var(--border); }
+.assignee-chip.add-btn:hover { background: var(--gold-pale); color: var(--gold); border-color: var(--gold); }
+
+/* GANTT BARS AREA */
+.bar-row { display: flex; align-items: center; position: relative; min-height: 72px; border-bottom: 1px solid var(--border); }
+.bar-grid { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; pointer-events: none; }
+.bar-grid-col { flex: 1; min-width: 80px; border-right: 1px solid rgba(0,0,0,0.04); }
+.bar-grid-col.today-col { background: rgba(74,155,142,0.05); border-right: 2px solid var(--teal); }
+.bar-grid-col.weekend { background: rgba(0,0,0,0.02); }
+
+.gantt-bar { position: absolute; height: 28px; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; font-weight: 600; color: white; cursor: pointer; transition: filter 0.2s, transform 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+.gantt-bar:hover { filter: brightness(1.1); transform: scaleY(1.05); z-index: 3; }
+.gantt-bar.milestone { width: 18px !important; height: 18px; border-radius: 3px; transform: rotate(45deg); padding: 0; }
+.gantt-bar.milestone:hover { transform: rotate(45deg) scale(1.2); }
+
+/* DEPENDENCY ARROWS */
+.dep-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
+.dep-arrow { stroke: var(--rose); stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; opacity: 0.6; }
+.dep-head { fill: var(--rose); opacity: 0.6; }
+
+/* ACTIVITY PANEL */
+.panel-overlay { position: fixed; inset: 0; background: rgba(30,46,35,0.4); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.25s; backdrop-filter: blur(2px); }
+.panel-overlay.open { opacity: 1; pointer-events: all; }
+.side-panel { position: fixed; right: 0; top: 0; bottom: 0; width: 440px; background: var(--white); box-shadow: -4px 0 32px rgba(0,0,0,0.15); z-index: 201; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
+.side-panel.open { transform: translateX(0); }
+.panel-header { background: var(--forest); color: var(--cream); padding: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
+.panel-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; line-height: 1.3; }
+.panel-close { background: none; border: none; color: rgba(242,237,227,0.6); font-size: 22px; cursor: pointer; padding: 0 4px; line-height: 1; transition: color 0.2s; }
+.panel-close:hover { color: var(--cream); }
+.panel-body { padding: 20px 24px; }
+.panel-section { margin-bottom: 20px; }
+.panel-section-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+
+/* ASSIGNEE EDITOR */
+.assignee-editor { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.assignee-tag { display: inline-flex; align-items: center; gap: 5px; background: var(--teal-pale); color: var(--teal); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.assignee-tag .remove { cursor: pointer; color: var(--teal); font-size: 14px; line-height: 1; transition: color 0.15s; }
+.assignee-tag .remove:hover { color: var(--rose); }
+.add-assignee-wrap { display: flex; gap: 8px; }
+.add-assignee-wrap input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'DM Sans', sans-serif; font-size: 12px; background: var(--cream); color: var(--text); outline: none; transition: border-color 0.2s; }
+.add-assignee-wrap input:focus { border-color: var(--teal); }
+.add-assignee-wrap button { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+.add-assignee-wrap button:hover { background: var(--forest-light); }
+
+/* ACTIVITIES LIST */
+.activity-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; background: var(--cream); border: 1px solid var(--cream-dark); transition: background 0.15s; }
+.activity-item.done { background: var(--teal-pale); border-color: var(--teal-pale); }
+.activity-item.done .act-text { text-decoration: line-through; color: var(--muted); }
+.act-check { width: 16px; height: 16px; min-width: 16px; border-radius: 4px; border: 2px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; background: white; margin-top: 1px; }
+.act-check.checked { background: var(--teal); border-color: var(--teal); }
+.act-check.checked::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
+.act-text { font-size: 13px; line-height: 1.4; flex: 1; }
+.act-label { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: auto; white-space: nowrap; }
+.act-label.milestone-tag { background: var(--gold-pale); color: var(--gold); }
+.act-label.dep-tag { background: var(--rose-pale); color: var(--rose); }
+
+/* MILESTONE MARKER */
+.milestone-row { position: absolute; width: 14px; height: 14px; background: var(--gold); transform: rotate(45deg); border-radius: 2px; z-index: 3; cursor: pointer; transition: transform 0.2s; }
+.milestone-row:hover { transform: rotate(45deg) scale(1.3); }
+
+/* PROGRESS RING in panel */
+.progress-circle-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.prog-ring { transform: rotate(-90deg); }
+.prog-ring-bg { fill: none; stroke: var(--cream-dark); stroke-width: 4; }
+.prog-ring-fill { fill: none; stroke: var(--teal); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 0.5s; }
+.prog-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--forest); }
+.prog-sub { font-size: 12px; color: var(--muted); }
+
+/* TODAY LINE */
+.today-line { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--teal); z-index: 4; pointer-events: none; }
+.today-label { position: absolute; top: 4px; background: var(--teal); color: white; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; transform: translateX(-50%); white-space: nowrap; }
+
+/* SCROLLBAR */
+.gantt-body::-webkit-scrollbar { height: 6px; }
+.gantt-body::-webkit-scrollbar-track { background: var(--cream-dark); }
+.gantt-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+@media (max-width: 768px) { .gantt-sidebar { width: 200px; min-width: 200px; } .side-panel { width: 100%; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>BWDC Product Team <em>2026</em> Roadmap</h1>
+    <div class="header-sub">Interactive Gantt · Click any bar to manage activities & assignees</div>
+  </div>
+  <div class="header-right">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Product-Led</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Cross-Functional</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div> Supporting</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--rose);transform:rotate(45deg)"></div> Milestone</div>
+    </div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterTeam('all')">All</button>
+  <button class="filter-btn" onclick="filterTeam('product')">Product-Led</button>
+  <button class="filter-btn" onclick="filterTeam('data')">+ Data</button>
+  <button class="filter-btn" onclick="filterTeam('growth')">+ Growth</button>
+  <button class="filter-btn" onclick="filterTeam('comms')">+ Comms</button>
+  <div class="progress-summary">
+    <span>Overall:</span>
+    <div class="overall-bar"><div class="overall-fill" id="overallBar" style="width:0%"></div></div>
+    <span id="overallPct">0%</span>
+  </div>
+</div>
+
+<div class="gantt-wrap">
+  <div class="gantt-sidebar" id="sidebar"></div>
+  <div class="gantt-body" id="ganttBody">
+    <div class="months-header" id="monthsHeader"></div>
+    <div id="barsArea" style="position:relative;"></div>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="panel-header">
+    <div class="panel-title" id="panelTitle"></div>
+    <button class="panel-close" onclick="closePanel()">×</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH_W = 90; // px per month
+const TODAY_MONTH = 1; // Feb = index 1
+
+const TEAM_COLORS = {
+  product: '#4A9B8E', data: '#7A9E7E', growth: '#C8903A', comms: '#C97B6A',
+  ops: '#8A7A9E', cross: '#4A9B8E'
+};
+
+const initiatives = [
+  // GROUP: PRODUCT-LED
+  { id:'ed-launch', group:'product-led', name:'Launch Explore Data', lead:'Rich', color:'#C8903A',
+    start:1, end:4, team:['product','data','growth','comms'],
+    milestones:[{month:1,label:'Feb: Guided Search'},{month:2,label:'Mar: NLP Search'},{month:3,label:'Apr: Location Search'},{month:4,label:'May: Tables & Rankings'}],
+    deps:[],
+    activities:[
+      {id:'a1',text:'Feb: Guided search + foundational UX + error states',done:false,milestone:true},
+      {id:'a2',text:'Mar: NLP natural language search launch',done:false,milestone:true},
+      {id:'a3',text:'Apr: Location-based search and map enhancements',done:false,milestone:true},
+      {id:'a4',text:'May: Table and ranking-based results',done:false,milestone:true},
+      {id:'a5',text:'Set success criteria for each team',done:false},
+      {id:'a6',text:'Establish clear launch responsibilities across teams',done:false},
+    ], assignees:['Rich','Jae'] },
+
+  { id:'feature-explore', group:'product-led', name:'Feature Exploration & R&D', lead:'Rich', color:'#4A9B8E',
+    start:1, end:11, team:['product'],
+    milestones:[{month:5,label:'Q2: Site Search Live'},{month:8,label:'Q3: LWE Overlay'}],
+    deps:['ed-launch'],
+    activities:[
+      {id:'b1',text:'Overall Site Search: Add article summaries to results',done:false},
+      {id:'b2',text:'LWE: Add download and overlay capability for users',done:false},
+      {id:'b3',text:'Track CTR improvement post global search',done:false},
+      {id:'b4',text:'Measure LWE overlay feature adoption',done:false},
+    ], assignees:['Rich'] },
+
+  { id:'member-reg', group:'product-led', name:'Member Registration & Personalization', lead:'Rich', color:'#4A9B8E',
+    start:0, end:5, team:['product','growth'],
+    milestones:[{month:3,label:'New onboarding live'}],
+    deps:[],
+    activities:[
+      {id:'c1',text:'Add new roles and industries to user profile',done:false},
+      {id:'c2',text:'Implement new user onboarding flows',done:false,milestone:true},
+      {id:'c3',text:'Profile dashboard personalization',done:false},
+      {id:'c4',text:'Align with Comms and Growth on revised roles list',done:false},
+    ], assignees:['Rich'] },
+
+  { id:'arch-rebuild', group:'product-led', name:'Rebuild Architecture — Growth Support', lead:'Rich', color:'#C97B6A',
+    start:0, end:5, team:['product','growth'],
+    milestones:[{month:2,label:'Phase 1 Complete'},{month:5,label:'CRM Live'}],
+    deps:['member-reg'],
+    activities:[
+      {id:'d1',text:'Phase 1: Webinar registration system',done:false,milestone:true},
+      {id:'d2',text:'Phase 1: Redesign Contact/Inquiry system',done:false},
+      {id:'d3',text:'Phase 2: Create dedicated landing pages',done:false},
+      {id:'d4',text:'Phase 2: CRM set-up',done:false},
+    ], assignees:['Rich'] },
+
+  { id:'user-research', group:'product-led', name:'Establish User Research Practice', lead:'Jake/Rich/Devyn', color:'#4A9B8E',
+    start:1, end:11, team:['product','growth','comms'],
+    milestones:[{month:5,label:'First Quarterly Workshop'},{month:11,label:'Annual Report'}],
+    deps:[],
+    activities:[
+      {id:'e1',text:'30-60-90 follow-up interviews for new releases',done:false},
+      {id:'e2',text:'Monthly user interviews program',done:false},
+      {id:'e3',text:'Quarterly User Insight Workshop',done:false,milestone:true},
+      {id:'e4',text:'Annual State of User Research Report',done:false,milestone:true},
+    ], assignees:['Jake','Devyn'] },
+
+  { id:'ai-strategy', group:'product-led', name:'Internal AI Strategy', lead:'Harsha', color:'#7A9E7E',
+    start:0, end:8, team:['product','data'],
+    milestones:[{month:3,label:'Advisory Board Set'},{month:11,label:'AI Pilot Live'}],
+    deps:[],
+    activities:[
+      {id:'f1',text:'Identify staff from every dept for AI committee',done:false},
+      {id:'f2',text:'Draft AI vision/mission',done:false},
+      {id:'f3',text:'Convene bi-weekly working sessions',done:false},
+      {id:'f4',text:'Set up AI advisory board',done:false,milestone:true},
+      {id:'f5',text:'Brief ED and board on AI pilots',done:false},
+    ], assignees:['Harsha'] },
+
+  { id:'platform-migration', group:'product-led', name:'Platform Migration Analysis', lead:'Harsha/Rich/Julie', color:'#8A7A9E',
+    start:0, end:11, team:['product','data','ops'],
+    milestones:[{month:5,label:'SWOT to Leadership'},{month:11,label:'Migration Decision'}],
+    deps:[],
+    activities:[
+      {id:'g1',text:'Complete SWOT analysis for platform migration',done:false},
+      {id:'g2',text:'Share recommendation with Tene and JHU',done:false,milestone:true},
+      {id:'g3',text:'Develop JHU stakeholder engagement plan',done:false},
+      {id:'g4',text:'Determine level of effort and cost',done:false},
+    ], assignees:['Harsha','Rich','Julie'] },
+
+  { id:'feedback-nps', group:'product-led', name:'Implement NPS Feedback Loop', lead:'Rich', color:'#4A9B8E',
+    start:2, end:9, team:['product','growth','comms'],
+    milestones:[{month:5,label:'NPS Live'}],
+    deps:['ed-launch'],
+    activities:[
+      {id:'h1',text:'Determine if NPS is right approach',done:false},
+      {id:'h2',text:'Implement satisfaction surveys across user flows',done:false,milestone:true},
+      {id:'h3',text:'Integrate surveys into email campaigns',done:false},
+    ], assignees:['Rich'] },
+
+  // GROUP: SUPPORTING DATA
+  { id:'private-data', group:'supporting-data', name:'Acquire Private Data (Support)', lead:'Harsha', color:'#7A9E7E',
+    start:0, end:11, team:['data','product'],
+    milestones:[{month:5,label:'5 Datasets Target'}],
+    deps:[],
+    activities:[
+      {id:'i1',text:'Surface commercial data findings on platform',done:false},
+      {id:'i2',text:'Ensure new data assets are discoverable in UX',done:false},
+      {id:'i3',text:'Work with Comms to highlight insights on social',done:false},
+    ], assignees:['Harsha'] },
+
+  { id:'forecasting', group:'supporting-data', name:'Data R&D — Forecasting & Simulation', lead:'Harsha/Cara', color:'#7A9E7E',
+    start:3, end:11, team:['data','product'],
+    milestones:[{month:5,label:'Forecasting on Explore'}],
+    deps:['ed-launch'],
+    activities:[
+      {id:'j1',text:'Work with Design & Product on forecasting estimates in Explore',done:false,milestone:true},
+      {id:'j2',text:'Identify 3-5 cities for tangled titles data',done:false},
+      {id:'j3',text:'Track user engagement with R&D assets on platform',done:false},
+    ], assignees:['Harsha','Cara'] },
+
+  // GROUP: SUPPORTING GROWTH
+  { id:'member-strategy', group:'supporting-growth', name:'Develop Member Engagement Strategy', lead:'Monique/Rich', color:'#C8903A',
+    start:1, end:4, team:['product','growth','comms'],
+    milestones:[{month:3,label:'Strategy Complete'}],
+    deps:[],
+    activities:[
+      {id:'k1',text:'Define what members get vs. non-members',done:false},
+      {id:'k2',text:'Design tiered system incentivizing registration',done:false,milestone:true},
+      {id:'k3',text:'Hold focus groups of current and potential users',done:false},
+      {id:'k4',text:'Build out 5 core use cases',done:false},
+    ], assignees:['Monique','Rich'] },
+
+  { id:'listening-tour', group:'supporting-growth', name:'Listening & Activation Tour', lead:'Monique', color:'#C8903A',
+    start:1, end:3, team:['product','growth','comms','data','ops'],
+    milestones:[{month:2,label:'Tour Launches'}],
+    deps:[],
+    activities:[
+      {id:'l1',text:'Pressure test wealth data activation',done:false},
+      {id:'l2',text:'Engage 50%+ of existing partner list',done:false,milestone:true},
+      {id:'l3',text:'Feed insights back into Explore Data roadmap',done:false},
+    ], assignees:['Monique'] },
+
+  // GROUP: SUPPORTING COMMS
+  { id:'rapid-rename', group:'supporting-comms', name:'Rapid Rename (Brand Support)', lead:'Jermaine', color:'#C97B6A',
+    start:0, end:3, team:['product','comms','data','growth','ops'],
+    milestones:[{month:1,label:'Internal Rollout'},{month:3,label:'External Rollout'}],
+    deps:[],
+    activities:[
+      {id:'m1',text:'Internal rollout — platform naming updated',done:false,milestone:true},
+      {id:'m2',text:'External rollout — digital properties updated',done:false,milestone:true},
+      {id:'m3',text:'Alignment with SoGP announcements',done:false},
+    ], assignees:['Jermaine'] },
+
+  { id:'brand-integration', group:'supporting-comms', name:'Brand Integration', lead:'Jermaine', color:'#C97B6A',
+    start:0, end:3, team:['product','comms','data','growth','ops'],
+    milestones:[{month:3,label:'Brand Live Across Platform'}],
+    deps:['rapid-rename'],
+    activities:[
+      {id:'n1',text:'Ensure new brand voice implemented across product surfaces',done:false},
+      {id:'n2',text:'Update visual identity assets in all digital tools',done:false,milestone:true},
+      {id:'n3',text:'Provide easy-access brand file to all team members',done:false},
+    ], assignees:['Jermaine'] },
+];
+
+const GROUPS = [
+  { id:'product-led',      label:'Product-Led Initiatives',    color:'#4A9B8E' },
+  { id:'supporting-data',  label:'Supporting Data Team',        color:'#7A9E7E' },
+  { id:'supporting-growth',label:'Supporting Growth Team',      color:'#C8903A' },
+  { id:'supporting-comms', label:'Supporting Comms Team',       color:'#C97B6A' },
+];
+
+// ── STATE ────────────────────────────────────────────────────────
+let collapsed = {};
+let activeFilter = 'all';
+
+// ── RENDER ───────────────────────────────────────────────────────
+function render() {
+  renderMonths();
+  renderRows();
+  updateOverall();
+}
+
+function renderMonths() {
+  const hdr = document.getElementById('monthsHeader');
+  hdr.innerHTML = MONTHS.map((m,i) =>
+    `<div class="month-cell ${i===TODAY_MONTH?'current':''}">${m}</div>`
+  ).join('');
+  hdr.style.minWidth = (MONTHS.length * MONTH_W) + 'px';
+}
+
+function renderRows() {
+  const sidebar = document.getElementById('sidebar');
+  const barsArea = document.getElementById('barsArea');
+  sidebar.innerHTML = `<div class="sidebar-header">Initiative</div>`;
+  barsArea.innerHTML = `<div class="months-header" id="monthsHeader2" style="min-width:${MONTHS.length*MONTH_W}px">
+    ${MONTHS.map((m,i)=>`<div class="month-cell ${i===TODAY_MONTH?'current':''}">${m}</div>`).join('')}
+  </div>`;
+  // today line
+  const todayLeft = TODAY_MONTH * MONTH_W + 15;
+  barsArea.innerHTML += `<div class="today-line" style="left:${todayLeft}px"><div class="today-label" style="left:0">TODAY</div></div>`;
+
+  // dep SVG overlay (drawn after bars)
+  let depSVGLines = [];
+
+  const barRowsMap = {};
+
+  GROUPS.forEach(group => {
+    const groupInits = initiatives.filter(i => i.group === group.id && matchesFilter(i));
+    if (!groupInits.length) return;
+    const isCollapsed = collapsed[group.id];
+
+    // Group header sidebar
+    sidebar.innerHTML += `<div class="group-row ${isCollapsed?'collapsed':''}" onclick="toggleGroup('${group.id}')" style="border-left:4px solid ${group.color}">
+      <span class="group-chevron">▾</span>
+      <span>${group.label}</span>
+      <span style="margin-left:auto;font-size:10px;opacity:0.6">${groupInits.length}</span>
+    </div>`;
+    // Group header bar area
+    barsArea.innerHTML += `<div class="group-bar-row" style="background:${group.color}22;border-left:4px solid ${group.color};min-width:${MONTHS.length*MONTH_W}px"></div>`;
+
+    groupInits.forEach((init, idx) => {
+      const pct = getProgress(init);
+      const barColor = init.color;
+      const rowClass = isCollapsed ? 'init-row hidden' : 'init-row';
+      const rowId = `row-${init.id}`;
+
+      // Sidebar row
+      sidebar.innerHTML += `<div class="${rowClass}" id="sidebar-${init.id}" style="border-left:3px solid ${barColor}">
+        <div class="init-sidebar">
+          <div class="init-name">${init.name}</div>
+          <div class="init-meta">
+            <span class="init-lead" style="color:${barColor}">⬤</span>
+            <span class="init-lead">${init.lead}</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-track"><div class="progress-fill" id="prog-${init.id}" style="width:${pct}%;background:${barColor}"></div></div>
+            <span class="progress-pct" id="pct-${init.id}">${pct}%</span>
+          </div>
+          <div class="assignees" id="chips-${init.id}">
+            ${init.assignees.map(a=>`<span class="assignee-chip" onclick="openPanel('${init.id}')">${a}</span>`).join('')}
+            <span class="assignee-chip add-btn" onclick="openPanel('${init.id}')">+ Add</span>
+          </div>
+        </div>
+      </div>`;
+
+      // Bar row
+      const gridCols = MONTHS.map((_,i)=>`<div class="bar-grid-col ${i===TODAY_MONTH?'today-col':''}"></div>`).join('');
+      const barLeft = init.start * MONTH_W + 6;
+      const barWidth = (init.end - init.start) * MONTH_W - 12;
+
+      // Milestone diamonds
+      const milestoneHtml = (init.milestones||[]).map(m => {
+        const ml = m.month * MONTH_W + (MONTH_W/2) - 9;
+        return `<div class="milestone-row" style="left:${ml}px;top:calc(50% - 7px);background:${barColor}" title="${m.label}" onclick="openPanel('${init.id}')"></div>`;
+      }).join('');
+
+      barsArea.innerHTML += `<div class="${rowClass} bar-row" id="${rowId}" style="min-width:${MONTHS.length*MONTH_W}px" data-group="${group.id}">
+        <div class="bar-grid">${gridCols}</div>
+        <div class="gantt-bar" style="left:${barLeft}px;width:${barWidth}px;background:${barColor};" onclick="openPanel('${init.id}')" title="${init.name}">
+          ${init.name.substring(0,28)}${init.name.length>28?'…':''}
+        </div>
+        ${milestoneHtml}
+      </div>`;
+
+      barRowsMap[init.id] = { top: 0, left: barLeft + barWidth };
+    });
+  });
+
+  // Draw dependency arrows
+  setTimeout(drawDeps, 50);
+}
+
+function drawDeps() {
+  const barsArea = document.getElementById('barsArea');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.classList.add('dep-svg');
+  svg.style.position = 'absolute';
+  svg.style.top = '0'; svg.style.left = '0';
+  svg.style.width = '100%'; svg.style.height = '100%';
+  svg.style.pointerEvents = 'none';
+  svg.style.zIndex = '1';
+  svg.style.overflow = 'visible';
+
+  initiatives.forEach(init => {
+    if (!init.deps || !init.deps.length) return;
+    const toRow = document.getElementById(`row-${init.id}`);
+    if (!toRow || toRow.classList.contains('hidden')) return;
+    init.deps.forEach(depId => {
+      const fromRow = document.getElementById(`row-${depId}`);
+      if (!fromRow || fromRow.classList.contains('hidden')) return;
+      const fromInit = initiatives.find(i=>i.id===depId);
+      if (!fromInit) return;
+
+      const fromRect = fromRow.getBoundingClientRect();
+      const toRect = toRow.getBoundingClientRect();
+      const areaRect = barsArea.getBoundingClientRect();
+
+      const x1 = fromInit.end * MONTH_W - 6;
+      const y1 = fromRect.top - areaRect.top + fromRect.height/2;
+      const x2 = init.start * MONTH_W + 6;
+      const y2 = toRect.top - areaRect.top + toRect.height/2;
+      const cx = (x1 + x2) / 2;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('class','dep-arrow');
+      path.setAttribute('d',`M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`);
+
+      const arrow = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+      arrow.setAttribute('class','dep-head');
+      arrow.setAttribute('points',`${x2},${y2} ${x2-8},${y2-4} ${x2-8},${y2+4}`);
+
+      svg.appendChild(path);
+      svg.appendChild(arrow);
+    });
+  });
+
+  barsArea.appendChild(svg);
+}
+
+// ── PANEL ────────────────────────────────────────────────────────
+let currentInitId = null;
+
+function openPanel(initId) {
+  currentInitId = initId;
+  const init = initiatives.find(i=>i.id===initId);
+  if (!init) return;
+  document.getElementById('panelTitle').textContent = init.name;
+  renderPanel(init);
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sidePanel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('sidePanel').classList.remove('open');
+  currentInitId = null;
+}
+
+function renderPanel(init) {
+  const pct = getProgress(init);
+  const done = init.activities.filter(a=>a.done).length;
+  const total = init.activities.length;
+  const r = 28; const circ = 2*Math.PI*r;
+  const offset = circ - (pct/100)*circ;
+
+  document.getElementById('panelBody').innerHTML = `
+    <div class="panel-section">
+      <div class="panel-section-title">Progress</div>
+      <div class="progress-circle-wrap">
+        <svg width="72" height="72" class="prog-ring">
+          <circle class="prog-ring-bg" cx="36" cy="36" r="${r}"/>
+          <circle class="prog-ring-fill" cx="36" cy="36" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${offset}" style="stroke:${init.color}"/>
+        </svg>
+        <div>
+          <div class="prog-text">${pct}%</div>
+          <div class="prog-sub">${done} of ${total} activities done</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Assignees</div>
+      <div class="assignee-editor" id="panel-assignees">
+        ${init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="remove" onclick="removeAssignee('${init.id}','${a}')">×</span></span>`).join('')}
+      </div>
+      <div class="add-assignee-wrap">
+        <input type="text" id="newAssigneeInput" placeholder="Add name..." onkeydown="if(event.key==='Enter')addAssignee('${init.id}')">
+        <button onclick="addAssignee('${init.id}')">Add</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Activities & Milestones — check off to update progress</div>
+      <div id="activities-list">
+        ${init.activities.map(a => `
+          <div class="activity-item ${a.done?'done':''}" id="act-${a.id}">
+            <div class="act-check ${a.done?'checked':''}" onclick="toggleActivity('${init.id}','${a.id}')"></div>
+            <div class="act-text">${a.text}</div>
+            ${a.milestone?`<span class="act-label milestone-tag">Milestone</span>`:''}
+          </div>`).join('')}
+      </div>
+    </div>
+
+    ${init.deps&&init.deps.length?`
+    <div class="panel-section">
+      <div class="panel-section-title">Dependencies</div>
+      ${init.deps.map(d=>{
+        const dep = initiatives.find(i=>i.id===d);
+        return dep?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--rose-pale);border-radius:8px;margin-bottom:6px;font-size:12px;">
+          <span style="color:var(--rose)">→</span>
+          <span>Depends on: <strong>${dep.name}</strong></span>
+          <span style="margin-left:auto;font-size:11px;color:var(--muted)">${getProgress(dep)}% done</span>
+        </div>`:'';
+      }).join('')}
+    </div>`:''}
+
+    ${init.milestones&&init.milestones.length?`
+    <div class="panel-section">
+      <div class="panel-section-title">Timeline Milestones</div>
+      ${init.milestones.map(m=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--gold-pale);border-radius:8px;margin-bottom:6px;font-size:12px;">
+          <span style="color:var(--gold);font-size:16px">◆</span>
+          <span><strong>${MONTHS[m.month]}</strong> — ${m.label}</span>
+        </div>`).join('')}
+    </div>`:''}
+  `;
+}
+
+// ── INTERACTIONS ─────────────────────────────────────────────────
+function toggleActivity(initId, actId) {
+  const init = initiatives.find(i=>i.id===initId);
+  const act = init.activities.find(a=>a.id===actId);
+  act.done = !act.done;
+
+  // Update activity item style
+  const el = document.getElementById(`act-${actId}`);
+  if (act.done) { el.classList.add('done'); el.querySelector('.act-check').classList.add('checked'); }
+  else { el.classList.remove('done'); el.querySelector('.act-check').classList.remove('checked'); }
+
+  updateProgress(init);
+}
+
+function updateProgress(init) {
+  const pct = getProgress(init);
+  // Update sidebar bar
+  const fill = document.getElementById(`prog-${init.id}`);
+  const pctEl = document.getElementById(`pct-${init.id}`);
+  if (fill) { fill.style.width = pct + '%'; fill.style.background = init.color; }
+  if (pctEl) pctEl.textContent = pct + '%';
+
+  // Update panel ring
+  if (currentInitId === init.id) {
+    const r=28; const circ=2*Math.PI*r;
+    const offset = circ - (pct/100)*circ;
+    const ring = document.querySelector('.prog-ring-fill');
+    const progText = document.querySelector('.prog-text');
+    const progSub = document.querySelector('.prog-sub');
+    if (ring) { ring.style.strokeDashoffset = offset; ring.style.stroke = init.color; }
+    if (progText) progText.textContent = pct+'%';
+    if (progSub) progSub.textContent = `${init.activities.filter(a=>a.done).length} of ${init.activities.length} activities done`;
+  }
+  updateOverall();
+}
+
+function getProgress(init) {
+  if (!init.activities.length) return 0;
+  return Math.round((init.activities.filter(a=>a.done).length / init.activities.length) * 100);
+}
+
+function updateOverall() {
+  const allActs = initiatives.flatMap(i=>i.activities);
+  const pct = allActs.length ? Math.round(allActs.filter(a=>a.done).length/allActs.length*100) : 0;
+  document.getElementById('overallBar').style.width = pct+'%';
+  document.getElementById('overallPct').textContent = pct+'%';
+}
+
+function addAssignee(initId) {
+  const input = document.getElementById('newAssigneeInput');
+  const name = input.value.trim();
+  if (!name) return;
+  const init = initiatives.find(i=>i.id===initId);
+  if (!init.assignees.includes(name)) {
+    init.assignees.push(name);
+    // Update sidebar chips
+    const chips = document.getElementById(`chips-${initId}`);
+    if (chips) chips.innerHTML = init.assignees.map(a=>`<span class="assignee-chip" onclick="openPanel('${initId}')">${a}</span>`).join('') + `<span class="assignee-chip add-btn" onclick="openPanel('${initId}')">+ Add</span>`;
+    // Update panel
+    const panelAssignees = document.getElementById('panel-assignees');
+    if (panelAssignees) panelAssignees.innerHTML = init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="remove" onclick="removeAssignee('${initId}','${a}')">×</span></span>`).join('');
+  }
+  input.value = '';
+}
+
+function removeAssignee(initId, name) {
+  const init = initiatives.find(i=>i.id===initId);
+  init.assignees = init.assignees.filter(a=>a!==name);
+  const chips = document.getElementById(`chips-${initId}`);
+  if (chips) chips.innerHTML = init.assignees.map(a=>`<span class="assignee-chip" onclick="openPanel('${initId}')">${a}</span>`).join('') + `<span class="assignee-chip add-btn" onclick="openPanel('${initId}')">+ Add</span>`;
+  const panelAssignees = document.getElementById('panel-assignees');
+  if (panelAssignees) panelAssignees.innerHTML = init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="remove" onclick="removeAssignee('${initId}','${a}')">×</span></span>`).join('');
+}
+
+function toggleGroup(groupId) {
+  collapsed[groupId] = !collapsed[groupId];
+  render();
+}
+
+function filterTeam(team) {
+  activeFilter = team;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function matchesFilter(init) {
+  if (activeFilter==='all') return true;
+  if (activeFilter==='product') return init.group==='product-led';
+  return init.team.includes(activeFilter);
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
