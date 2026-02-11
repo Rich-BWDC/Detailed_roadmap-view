@@ -91,16 +91,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .activities-dropdown.open{max-height:600px;}
 .act-dropdown-inner{padding:10px 14px;}
 .act-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
-.act-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:8px;margin-bottom:5px;background:var(--white);border:1px solid var(--border);transition:background 0.15s;}
+.act-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:8px;margin-bottom:5px;background:var(--white);border:1px solid var(--border);transition:all 0.15s;}
 .act-item.done{background:var(--teal-pale);border-color:var(--teal-pale);}
 .act-item.done .act-text{text-decoration:line-through;color:var(--muted);}
+.act-item.deprioritized{background:#f7f7f5;border:1px dashed var(--border);opacity:0.62;}
+.act-item.deprioritized .act-text{color:var(--muted);font-style:italic;}
 .act-check{width:15px;height:15px;min-width:15px;border-radius:4px;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:white;margin-top:1px;}
 .act-check.checked{background:var(--teal);border-color:var(--teal);}
 .act-check.checked::after{content:'✓';color:white;font-size:9px;font-weight:700;}
 .act-text{font-size:12px;line-height:1.4;flex:1;}
-.act-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;margin-left:auto;white-space:nowrap;}
+.act-actions{display:flex;align-items:center;gap:4px;flex-shrink:0;margin-top:1px;}
+.act-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;white-space:nowrap;}
 .act-badge.ms{background:var(--gold-pale);color:var(--gold);}
 .act-badge.dep{background:var(--rose-pale);color:var(--rose);}
+.act-depr-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:2px 6px;font-size:9px;font-weight:700;cursor:pointer;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all 0.2s;white-space:nowrap;line-height:1.4;}
+.act-depr-btn:hover{background:var(--rose-pale);color:var(--rose);border-color:var(--rose);}
+.act-depr-btn.reprioritize{background:var(--sage-pale);color:var(--sage);border-color:var(--sage);}
+.act-depr-btn.reprioritize:hover{background:var(--teal-pale);color:var(--teal);border-color:var(--teal);}
 
 /* ASSIGNEE EDITOR in dropdown */
 .assignee-editor-row{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);flex-wrap:wrap;}
@@ -116,13 +123,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .comment-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;}
 .comment-meta{font-size:10px;color:var(--muted);margin-bottom:3px;display:flex;justify-content:space-between;}
 .comment-author{font-weight:700;color:var(--forest);}
-.comment-text{font-size:12px;line-height:1.45;}
-.comment-input-row{display:flex;gap:6px;margin-top:6px;}
-.comment-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;resize:none;transition:border-color 0.2s;}
+.comment-text{font-size:12px;line-height:1.55;word-break:break-word;}
+.comment-text a{color:var(--teal);text-decoration:underline;word-break:break-all;}
+.comment-text a:hover{color:var(--forest);}
+.comment-input-row{display:flex;gap:6px;margin-top:6px;align-items:flex-start;}
+.comment-input-wrap{flex:1;position:relative;}
+.comment-input{width:100%;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;resize:none;transition:border-color 0.2s;min-height:36px;max-height:120px;overflow-y:auto;line-height:1.5;}
 .comment-input:focus{border-color:var(--teal);}
-.comment-author-input{border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;width:90px;}
-.comment-submit{background:var(--forest);color:var(--cream);border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.comment-char{position:absolute;bottom:5px;right:8px;font-size:9px;color:var(--muted);pointer-events:none;transition:color 0.2s;}
+.comment-char.warn{color:var(--gold);}
+.comment-char.over{color:var(--critical);}
+.comment-author-input{border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;width:86px;flex-shrink:0;}
+.comment-submit{background:var(--forest);color:var(--cream);border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}
 .comment-submit:hover{background:var(--teal);}
+.comment-submit:disabled{opacity:0.4;cursor:not-allowed;}
 
 /* BAR AREA */
 .bar-row{display:flex;align-items:center;position:relative;min-height:64px;border-bottom:1px solid var(--border);overflow:hidden;}
@@ -141,7 +155,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .resize-handle.right{right:0;border-radius:0 6px 6px 0;}
 .resize-handle:hover{background:rgba(255,255,255,0.2);}
 /* Milestone diamond */
-.milestone-diamond{position:absolute;width:16px;height:16px;transform:rotate(45deg);border-radius:2px;z-index:10;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;pointer-events:all;background:#F5C842!important;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
+.milestone-diamond{position:absolute;width:16px;height:16px;transform:rotate(45deg);border-radius:2px;z-index:10;cursor:grab;transition:transform 0.2s,box-shadow 0.2s;pointer-events:all;background:#F5C842!important;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
 .milestone-diamond:hover{transform:rotate(45deg) scale(1.35);box-shadow:0 4px 12px rgba(0,0,0,0.4);}
 /* Milestone tooltip */
 .milestone-diamond .ms-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) rotate(-45deg);background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;white-space:nowrap;padding:5px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity 0.18s;box-shadow:0 4px 12px rgba(0,0,0,0.25);z-index:50;}
@@ -395,13 +409,14 @@ let dragState=null,resizeState=null;
 
 // ── LOCALSTORAGE ──────────────────────────────────────────────────
 function saveState(){
-  const s={activities:{},assignees:{},comments:{},starts:{},ends:{}};
+  const s={activities:{},assignees:{},comments:{},starts:{},ends:{},milestones:{}};
   initiatives.forEach(i=>{
-    s.activities[i.id]=i.activities.map(a=>a.done);
+    s.activities[i.id]=i.activities.map(a=>({done:a.done,deprioritized:!!a.deprioritized}));
     s.assignees[i.id]=[...i.assignees];
     s.comments[i.id]=[...i.comments];
     s.starts[i.id]=i.start;
     s.ends[i.id]=i.end;
+    s.milestones[i.id]=(i.milestones||[]).map(m=>({...m}));
   });
   localStorage.setItem('bwdc_gantt_v2',JSON.stringify(s));
 }
@@ -410,19 +425,24 @@ function loadState(){
     const s=JSON.parse(localStorage.getItem('bwdc_gantt_v2'));
     if(!s)return;
     initiatives.forEach(i=>{
-      if(s.activities[i.id]) i.activities.forEach((a,idx)=>{a.done=s.activities[i.id][idx]??a.done;});
+      if(s.activities[i.id]) i.activities.forEach((a,idx)=>{
+        a.done=s.activities[i.id][idx]?.done??a.done;
+        a.deprioritized=s.activities[i.id][idx]?.deprioritized??false;
+      });
       if(s.assignees[i.id]) i.assignees=s.assignees[i.id];
       if(s.comments[i.id]) i.comments=s.comments[i.id];
       if(s.starts[i.id]!==undefined) i.start=s.starts[i.id];
       if(s.ends[i.id]!==undefined) i.end=s.ends[i.id];
+      if(s.milestones[i.id]) i.milestones=s.milestones[i.id];
     });
   }catch(e){}
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────
 function getPct(init){
-  if(!init.activities.length)return 0;
-  return Math.round(init.activities.filter(a=>a.done).length/init.activities.length*100);
+  const active=init.activities.filter(a=>!a.deprioritized);
+  if(!active.length)return 0;
+  return Math.round(active.filter(a=>a.done).length/active.length*100);
 }
 function updateOverall(){
   const all=initiatives.flatMap(i=>i.activities);
@@ -527,13 +547,24 @@ function renderRows(){
 
 function renderDropdown(init){
   const pct=getPct(init);
+  const activeActs=init.activities.filter(a=>!a.deprioritized);
+  const deprActs=init.activities.filter(a=>a.deprioritized);
   return `<div class="act-dropdown-inner">
-    <div class="act-section-title">Activities — ${init.activities.filter(a=>a.done).length}/${init.activities.length} done · ${pct}%</div>
+    <div class="act-section-title">Activities — ${activeActs.filter(a=>a.done).length}/${activeActs.length} done · ${pct}%</div>
     ${init.activities.map(a=>`
-      <div class="act-item ${a.done?'done':''}" id="act-${a.id}">
-        <div class="act-check ${a.done?'checked':''}" onclick="toggleAct('${init.id}','${a.id}',event)"></div>
+      <div class="act-item ${a.done?'done':''} ${a.deprioritized?'deprioritized':''}" id="act-${a.id}">
+        <div class="act-check ${a.done?'checked':''} ${a.deprioritized?'deprioritized-check':''}"
+          style="${a.deprioritized?'pointer-events:none;cursor:default;':''}"
+          onclick="toggleAct('${init.id}','${a.id}',event)"></div>
         <div class="act-text">${a.text}</div>
-        ${a.milestone?`<span class="act-badge ms">Milestone</span>`:''}
+        <div class="act-actions">
+          ${a.milestone?`<span class="act-badge ms">Milestone</span>`:''}
+          ${a.deprioritized
+            ?`<span class="act-badge" style="background:#ece9e3;color:var(--muted)">Deprioritized</span>
+              <button class="act-depr-btn reprioritize" onclick="toggleDeprioritize('${init.id}','${a.id}',event)" title="Restore to active">↑ Restore</button>`
+            :`<button class="act-depr-btn" onclick="toggleDeprioritize('${init.id}','${a.id}',event)" title="Mark as deprioritized">↓ Depr.</button>`
+          }
+        </div>
       </div>`).join('')}
     ${init.deps&&init.deps.length?`<div style="margin-top:8px;padding:7px 10px;background:var(--rose-pale);border-radius:8px;font-size:11px;color:var(--rose);">
       🔗 Depends on: ${init.deps.map(d=>{const di=initiatives.find(i=>i.id===d);return di?`<strong>${di.name}</strong>`:d;}).join(', ')}
@@ -548,14 +579,18 @@ function renderDropdown(init){
       <div class="act-section-title" style="margin-top:8px;">Comments (${init.comments.length})</div>
       <div id="cmts-${init.id}">
         ${init.comments.map(c=>`<div class="comment-item">
-          <div class="comment-meta"><span class="comment-author">${c.author}</span><span>${c.time}</span></div>
-          <div class="comment-text">${c.text}</div>
+          <div class="comment-meta"><span class="comment-author">${escHtml(c.author)}</span><span>${escHtml(c.time)}</span></div>
+          <div class="comment-text">${linkifyComment(escHtml(c.text))}</div>
         </div>`).join('')}
       </div>
       <div class="comment-input-row">
         <input class="comment-author-input" id="cauthor-${init.id}" placeholder="Your name">
-        <textarea class="comment-input" id="ctext-${init.id}" placeholder="Add a comment…" rows="2"></textarea>
-        <button class="comment-submit" onclick="addComment('${init.id}',event)">Post</button>
+        <div class="comment-input-wrap">
+          <textarea class="comment-input" id="ctext-${init.id}" placeholder="Add a comment… (max 200 chars, URLs auto-linked)" rows="2"
+            oninput="onCommentInput('${init.id}',this)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addComment('${init.id}',event);}"></textarea>
+          <span class="comment-char" id="cchar-${init.id}">0/200</span>
+        </div>
+        <button class="comment-submit" id="csub-${init.id}" onclick="addComment('${init.id}',event)">Post</button>
       </div>
     </div>
   </div>`;
@@ -576,18 +611,54 @@ function toggleAct(initId,actId,e){
   e&&e.stopPropagation();
   const init=initiatives.find(i=>i.id===initId);
   const act=init.activities.find(a=>a.id===actId);
+  if(act.deprioritized)return;
   act.done=!act.done;
   const el=document.getElementById(`act-${actId}`);
   if(el){
     el.classList.toggle('done',act.done);
     el.querySelector('.act-check').classList.toggle('checked',act.done);
   }
-  // Update section title
   const pct=getPct(init);
   const titleEl=document.querySelector(`#drop-${initId} .act-section-title`);
-  if(titleEl) titleEl.textContent=`Activities — ${init.activities.filter(a=>a.done).length}/${init.activities.length} done · ${pct}%`;
+  const activeActs=init.activities.filter(a=>!a.deprioritized);
+  if(titleEl) titleEl.textContent=`Activities — ${activeActs.filter(a=>a.done).length}/${activeActs.length} done · ${pct}%`;
   updateProgressBar(init);
   saveState();
+}
+
+function toggleDeprioritize(initId,actId,e){
+  e&&e.stopPropagation();
+  const init=initiatives.find(i=>i.id===initId);
+  const act=init.activities.find(a=>a.id===actId);
+  act.deprioritized=!act.deprioritized;
+  if(act.deprioritized) act.done=false;
+  refreshDropdown(initId);
+  updateProgressBar(init);
+  saveState();
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function linkifyComment(s){
+  return s.replace(/(https?:\/\/[^\s<>"]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+function onCommentInput(initId,ta){
+  const max=200;
+  const len=ta.value.length;
+  if(len>max) ta.value=ta.value.substring(0,max);
+  const charEl=document.getElementById(`cchar-${initId}`);
+  const subEl=document.getElementById(`csub-${initId}`);
+  const cur=Math.min(len,max);
+  if(charEl){
+    charEl.textContent=`${cur}/200`;
+    charEl.className='comment-char'+(cur>=200?' over':cur>=160?' warn':'');
+  }
+  if(subEl) subEl.disabled=cur===0;
+  // auto-expand
+  ta.style.height='auto';
+  ta.style.height=Math.min(ta.scrollHeight,120)+'px';
 }
 
 function updateProgressBar(init){
@@ -627,18 +698,22 @@ function removeAssignee(initId,name,e){
 function addComment(initId,e){
   e&&e.stopPropagation();
   const author=document.getElementById(`cauthor-${initId}`)?.value?.trim()||'Team';
-  const text=document.getElementById(`ctext-${initId}`)?.value?.trim();
-  if(!text)return;
+  const rawText=document.getElementById(`ctext-${initId}`)?.value?.trim();
+  if(!rawText)return;
+  const text=rawText.substring(0,200);
   const init=initiatives.find(i=>i.id===initId);
   const now=new Date();
   init.comments.push({author,text,time:now.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})});
   document.getElementById(`ctext-${initId}`).value='';
+  const charEl=document.getElementById(`cchar-${initId}`);
+  if(charEl){charEl.textContent='0/200';charEl.className='comment-char';}
+  const ta=document.getElementById(`ctext-${initId}`);
+  if(ta){ta.style.height='auto';}
   const cmtEl=document.getElementById(`cmts-${initId}`);
   if(cmtEl) cmtEl.innerHTML=init.comments.map(c=>`<div class="comment-item">
-    <div class="comment-meta"><span class="comment-author">${c.author}</span><span>${c.time}</span></div>
-    <div class="comment-text">${c.text}</div>
+    <div class="comment-meta"><span class="comment-author">${escHtml(c.author)}</span><span>${escHtml(c.time)}</span></div>
+    <div class="comment-text">${linkifyComment(escHtml(c.text))}</div>
   </div>`).join('');
-  const titleEl=document.querySelector(`#drop-${initId} .act-section-title:last-of-type`);
   const commentTitle=document.querySelector(`#drop-${initId} .comments-section .act-section-title`);
   if(commentTitle) commentTitle.textContent=`Comments (${init.comments.length})`;
   saveState();
@@ -767,6 +842,8 @@ function drawDeps(){
 }
 
 // ── DRAG & RESIZE ─────────────────────────────────────────────────
+let msDragState=null;
+
 function setupDragResize(){
   document.querySelectorAll('.gantt-bar').forEach(bar=>{
     bar.addEventListener('mousedown',onBarMousedown);
@@ -774,6 +851,62 @@ function setupDragResize(){
   document.querySelectorAll('.resize-handle').forEach(h=>{
     h.addEventListener('mousedown',onResizeMousedown);
   });
+  document.querySelectorAll('.milestone-diamond').forEach(d=>{
+    d.addEventListener('mousedown',onMilestoneMousedown);
+  });
+}
+
+function onMilestoneMousedown(e){
+  e.preventDefault();e.stopPropagation();
+  const el=e.currentTarget;
+  const initId=el.closest('.bar-row')?.dataset?.id||el.closest('[id^="bar-"]')?.id?.replace('bar-','');
+  // find initId from sibling bar
+  const barRow=el.parentElement;
+  const barEl=barRow.querySelector('.gantt-bar');
+  if(!barEl)return;
+  const iid=barEl.dataset.id;
+  const init=initiatives.find(i=>i.id===iid);
+  if(!init)return;
+  // which milestone? find by current left position
+  const curLeft=parseInt(el.style.left);
+  const msIdx=init.milestones.findIndex(m=>{
+    const ml=m.month*MW+(MW/2)-8;
+    return Math.abs(ml-curLeft)<MW/2;
+  });
+  if(msIdx<0)return;
+  el.style.cursor='grabbing';
+  el.style.zIndex='30';
+  msDragState={init,el,msIdx,startX:e.clientX,origMonth:init.milestones[msIdx].month};
+  document.addEventListener('mousemove',onMilestoneDragMove);
+  document.addEventListener('mouseup',onMilestoneDragUp);
+}
+
+function onMilestoneDragMove(e){
+  if(!msDragState)return;
+  const dx=e.clientX-msDragState.startX;
+  const md=Math.round(dx/MW);
+  let nm=Math.max(0,Math.min(11,msDragState.origMonth+md));
+  msDragState.init.milestones[msDragState.msIdx].month=nm;
+  const newLeft=nm*MW+(MW/2)-8;
+  msDragState.el.style.left=newLeft+'px';
+  // Update tooltip
+  const tip=msDragState.el.querySelector('.ms-tooltip');
+  if(tip){
+    const parts=msDragState.init.milestones[msDragState.msIdx].label.replace(/^[A-Za-z]+:/,'').trim();
+    tip.textContent=`${MONTHS[nm]}: ${parts}`;
+    msDragState.init.milestones[msDragState.msIdx].label=`${MONTHS[nm]}: ${parts}`;
+  }
+}
+
+function onMilestoneDragUp(){
+  if(msDragState){
+    msDragState.el.style.cursor='pointer';
+    msDragState.el.style.zIndex='10';
+    msDragState=null;
+    saveState();
+  }
+  document.removeEventListener('mousemove',onMilestoneDragMove);
+  document.removeEventListener('mouseup',onMilestoneDragUp);
 }
 
 function onBarMousedown(e){
