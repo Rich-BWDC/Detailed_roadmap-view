@@ -7,185 +7,214 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --cream: #F2EDE3; --cream-dark: #E8E1D3; --forest: #1E2E23; --forest-mid: #2D3B2D;
-  --forest-light: #3D5240; --teal: #4A9B8E; --teal-light: #7EC8BE; --teal-pale: #D4EDEA;
-  --gold: #C8903A; --gold-pale: #F5E6CC; --gold-bright: #D4A042;
-  --rose: #C97B6A; --rose-pale: #F5DDD8; --sage: #7A9E7E; --sage-pale: #DFF0E0;
-  --white: #fff; --text: #3A3A2E; --muted: #7A7A6A; --border: #D8D0C0;
+  --cream:#F2EDE3;--cream-dark:#E8E1D3;--forest:#1E2E23;--forest-mid:#2D3B2D;
+  --forest-light:#3D5240;--teal:#4A9B8E;--teal-light:#7EC8BE;--teal-pale:#D4EDEA;
+  --gold:#C8903A;--gold-pale:#F5E6CC;--rose:#C97B6A;--rose-pale:#F5DDD8;
+  --sage:#7A9E7E;--sage-pale:#DFF0E0;--white:#fff;--text:#3A3A2E;--muted:#7A7A6A;--border:#D8D0C0;
+  --critical:#E8453C;--critical-pale:#FDECEA;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); font-size: 13px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);font-size:13px;overflow-x:hidden;}
 
 /* HEADER */
-.header { background: var(--forest); color: var(--cream); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
-.header-left h1 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
-.header-left h1 em { font-style: italic; color: var(--teal-light); }
-.header-sub { font-size: 11px; color: rgba(242,237,227,0.5); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
-.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.legend { display: flex; gap: 12px; align-items: center; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: rgba(242,237,227,0.7); }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+.header{background:var(--forest);color:var(--cream);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
+.header h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;}
+.header h1 em{font-style:italic;color:var(--teal-light);}
+.header-sub{font-size:10px;color:rgba(242,237,227,0.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(242,237,227,0.7);}
+.legend-dot{width:10px;height:10px;border-radius:2px;}
+.legend-diamond{width:10px;height:10px;background:#F5C842;transform:rotate(45deg);border:1.5px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.legend-critical{width:10px;height:10px;border-radius:2px;background:var(--critical);}
 
-/* TEAM FILTER */
-.toolbar { background: var(--forest-mid); padding: 10px 32px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 2px solid var(--gold); }
-.filter-label { font-size: 11px; color: rgba(242,237,227,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
-.filter-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(242,237,227,0.8); padding: 5px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-.filter-btn:hover, .filter-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
-.progress-summary { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(242,237,227,0.7); }
-.overall-bar { width: 120px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-.overall-fill { height: 100%; background: var(--teal-light); border-radius: 3px; transition: width 0.5s; }
+/* TOOLBAR */
+.toolbar{background:var(--forest-mid);padding:8px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--gold);}
+.filter-label{font-size:10px;color:rgba(242,237,227,0.5);letter-spacing:1.5px;text-transform:uppercase;}
+.filter-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(242,237,227,0.8);padding:4px 12px;border-radius:20px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.filter-btn:hover,.filter-btn.active{background:var(--teal);border-color:var(--teal);color:white;}
+.toolbar-sep{width:1px;height:20px;background:rgba(255,255,255,0.1);}
+.view-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(242,237,227,0.8);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.view-btn:hover,.view-btn.active{background:var(--gold);border-color:var(--gold);color:white;}
+.critical-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:rgba(242,237,227,0.7);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);transition:all 0.2s;}
+.critical-toggle:hover,.critical-toggle.active{background:var(--critical-pale);color:var(--critical);border-color:var(--critical);}
+.critical-toggle input{accent-color:var(--critical);cursor:pointer;}
+.progress-summary{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(242,237,227,0.7);}
+.overall-bar{width:100px;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;}
+.overall-fill{height:100%;background:var(--teal-light);border-radius:3px;transition:width 0.5s;}
 
-/* GANTT LAYOUT */
-.gantt-wrap { display: flex; overflow-x: auto; min-height: calc(100vh - 120px); }
-.gantt-sidebar { width: 320px; min-width: 320px; background: var(--white); border-right: 1px solid var(--border); position: sticky; left: 0; z-index: 10; }
-.gantt-body { flex: 1; overflow-x: auto; position: relative; }
+/* VIEWS */
+.view-gantt{display:flex;}
+.view-workload{display:none;padding:28px;}
+.view-gantt.hidden,.view-workload.hidden{display:none!important;}
+.view-workload.active{display:block!important;}
+.view-gantt.active{display:flex!important;}
 
-/* SIDEBAR HEADER */
-.sidebar-header { background: var(--cream-dark); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); height: 56px; display: flex; align-items: center; }
+/* GANTT */
+.gantt-sidebar{width:300px;min-width:300px;background:var(--white);border-right:1px solid var(--border);position:sticky;left:0;z-index:10;flex-shrink:0;}
+.gantt-body{flex:1;overflow-x:auto;position:relative;min-width:0;}
+.sidebar-header{background:var(--cream-dark);padding:12px 16px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);height:52px;display:flex;align-items:center;}
+.months-header{display:flex;height:52px;border-bottom:1px solid var(--border);background:var(--cream-dark);position:sticky;top:0;z-index:5;}
+.month-cell{flex:1;min-width:80px;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.month-cell.current{background:var(--teal-pale);color:var(--teal);}
 
-/* MONTH HEADER */
-.months-header { display: flex; height: 56px; border-bottom: 1px solid var(--border); background: var(--cream-dark); position: sticky; top: 0; z-index: 5; }
-.month-cell { flex: 1; min-width: 80px; border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); padding: 0 8px; }
-.month-cell.current { background: var(--teal-pale); color: var(--teal); }
+/* GROUP */
+.group-row{background:var(--forest);color:var(--cream);padding:7px 14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;border-bottom:1px solid rgba(255,255,255,0.05);}
+.group-row:hover{background:var(--forest-mid);}
+.group-chevron{transition:transform 0.2s;font-size:9px;}
+.group-row.collapsed .group-chevron{transform:rotate(-90deg);}
+.group-bar-row{background:rgba(0,0,0,0.02);height:32px;display:flex;align-items:center;border-bottom:1px solid var(--border);}
 
-/* GROUP ROWS */
-.group-row { background: var(--forest); color: var(--cream); padding: 8px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-.group-row:hover { background: var(--forest-mid); }
-.group-chevron { transition: transform 0.2s; font-size: 10px; }
-.group-row.collapsed .group-chevron { transform: rotate(-90deg); }
-.group-bar-row { background: var(--forest); height: 38px; display: flex; align-items: center; position: relative; border-bottom: 1px solid rgba(255,255,255,0.05); }
+/* INITIATIVE ROW */
+.init-row{border-bottom:1px solid var(--border);transition:background 0.15s;}
+.init-row:hover .init-sidebar{background:#faf9f5;}
+.init-row.hidden{display:none!important;}
+.init-sidebar{padding:8px 14px;display:flex;flex-direction:column;gap:3px;min-height:64px;justify-content:center;cursor:pointer;transition:background 0.15s;}
+.init-name{font-family:'Playfair Display',serif;font-size:12px;font-weight:600;color:var(--forest);line-height:1.3;}
+.init-lead{font-size:10px;color:var(--muted);}
+.progress-wrap{display:flex;align-items:center;gap:5px;margin-top:2px;}
+.progress-track{flex:1;height:4px;background:var(--cream-dark);border-radius:2px;overflow:hidden;position:relative;}
+.progress-fill{height:100%;border-radius:2px;transition:width 0.4s ease;position:relative;z-index:1;}
+.progress-pct{font-size:10px;font-weight:700;color:var(--muted);min-width:26px;text-align:right;}
+.assignees{display:flex;gap:3px;flex-wrap:wrap;margin-top:2px;}
+.assignee-chip{display:inline-flex;align-items:center;gap:2px;background:var(--teal-pale);color:var(--teal);font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;}
+.assignee-chip.add-btn{background:var(--cream-dark);color:var(--muted);border:1px dashed var(--border);cursor:pointer;}
+.assignee-chip.add-btn:hover{background:var(--gold-pale);color:var(--gold);border-color:var(--gold);}
 
-/* INITIATIVE ROWS */
-.init-row { border-bottom: 1px solid var(--border); transition: background 0.15s; }
-.init-row:hover { background: #faf9f5; }
-.init-row.hidden { display: none; }
-.init-sidebar { padding: 10px 16px; display: flex; flex-direction: column; gap: 4px; min-height: 72px; justify-content: center; }
-.init-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--forest); line-height: 1.3; }
-.init-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.init-lead { font-size: 11px; color: var(--muted); }
+/* CRITICAL PATH */
+.init-row.critical .init-sidebar{border-left:3px solid var(--critical)!important;}
+.init-row.critical .init-name{color:var(--critical);}
+.gantt-bar.critical-bar{box-shadow:0 0 0 2px var(--critical),0 2px 8px rgba(232,69,60,0.3)!important;filter:none!important;}
+.gantt-bar.critical-bar::before{content:'';position:absolute;inset:0;border-radius:6px;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.1) 0,rgba(255,255,255,0.1) 3px,transparent 3px,transparent 8px);}
 
-/* PROGRESS BAR */
-.progress-wrap { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-.progress-track { flex: 1; height: 4px; background: var(--cream-dark); border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
-.progress-pct { font-size: 10px; font-weight: 700; color: var(--muted); min-width: 28px; text-align: right; }
+/* EXPANDED ACTIVITIES DROPDOWN */
+.activities-dropdown{background:var(--cream);border-top:1px solid var(--border);overflow:hidden;max-height:0;transition:max-height 0.35s ease;}
+.activities-dropdown.open{max-height:600px;}
+.act-dropdown-inner{padding:10px 14px;}
+.act-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.act-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:8px;margin-bottom:5px;background:var(--white);border:1px solid var(--border);transition:background 0.15s;}
+.act-item.done{background:var(--teal-pale);border-color:var(--teal-pale);}
+.act-item.done .act-text{text-decoration:line-through;color:var(--muted);}
+.act-check{width:15px;height:15px;min-width:15px;border-radius:4px;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:white;margin-top:1px;}
+.act-check.checked{background:var(--teal);border-color:var(--teal);}
+.act-check.checked::after{content:'✓';color:white;font-size:9px;font-weight:700;}
+.act-text{font-size:12px;line-height:1.4;flex:1;}
+.act-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;margin-left:auto;white-space:nowrap;}
+.act-badge.ms{background:var(--gold-pale);color:var(--gold);}
+.act-badge.dep{background:var(--rose-pale);color:var(--rose);}
 
-/* ASSIGNEE CHIPS */
-.assignees { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 3px; }
-.assignee-chip { display: inline-flex; align-items: center; gap: 3px; background: var(--teal-pale); color: var(--teal); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; cursor: pointer; transition: all 0.15s; }
-.assignee-chip:hover { background: var(--teal); color: white; }
-.assignee-chip.add-btn { background: var(--cream-dark); color: var(--muted); border: 1px dashed var(--border); }
-.assignee-chip.add-btn:hover { background: var(--gold-pale); color: var(--gold); border-color: var(--gold); }
+/* ASSIGNEE EDITOR in dropdown */
+.assignee-editor-row{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.assignee-tag{display:inline-flex;align-items:center;gap:3px;background:var(--teal-pale);color:var(--teal);padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600;}
+.assignee-tag .rm{cursor:pointer;color:var(--muted);font-size:13px;line-height:1;transition:color 0.15s;margin-left:1px;}
+.assignee-tag .rm:hover{color:var(--rose);}
+.add-input{border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;width:120px;transition:border-color 0.2s;}
+.add-input:focus{border-color:var(--teal);}
+.add-btn-sm{background:var(--teal);color:white;border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
 
-/* GANTT BARS AREA */
-.bar-row { display: flex; align-items: center; position: relative; min-height: 72px; border-bottom: 1px solid var(--border); }
-.bar-grid { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; pointer-events: none; }
-.bar-grid-col { flex: 1; min-width: 80px; border-right: 1px solid rgba(0,0,0,0.04); }
-.bar-grid-col.today-col { background: rgba(74,155,142,0.05); border-right: 2px solid var(--teal); }
-.bar-grid-col.weekend { background: rgba(0,0,0,0.02); }
+/* COMMENTS */
+.comments-section{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+.comment-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;}
+.comment-meta{font-size:10px;color:var(--muted);margin-bottom:3px;display:flex;justify-content:space-between;}
+.comment-author{font-weight:700;color:var(--forest);}
+.comment-text{font-size:12px;line-height:1.45;}
+.comment-input-row{display:flex;gap:6px;margin-top:6px;}
+.comment-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;resize:none;transition:border-color 0.2s;}
+.comment-input:focus{border-color:var(--teal);}
+.comment-author-input{border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:11px;background:var(--white);color:var(--text);outline:none;width:90px;}
+.comment-submit{background:var(--forest);color:var(--cream);border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.comment-submit:hover{background:var(--teal);}
 
-.gantt-bar { position: absolute; height: 28px; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; font-weight: 600; color: white; cursor: pointer; transition: filter 0.2s, transform 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
-.gantt-bar:hover { filter: brightness(1.1); transform: scaleY(1.05); z-index: 3; }
-.gantt-bar.milestone { width: 18px !important; height: 18px; border-radius: 3px; transform: rotate(45deg); padding: 0; }
-.gantt-bar.milestone:hover { transform: rotate(45deg) scale(1.2); }
+/* BAR AREA */
+.bar-row{display:flex;align-items:center;position:relative;min-height:64px;border-bottom:1px solid var(--border);overflow:hidden;}
+.bar-row.expanded{min-height:64px;}
+.bar-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;pointer-events:none;}
+.bar-grid-col{flex:1;min-width:80px;border-right:1px solid rgba(0,0,0,0.04);}
+.bar-grid-col.today-col{background:rgba(74,155,142,0.06);}
+.gantt-bar{position:absolute;height:26px;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:600;color:white;cursor:grab;transition:filter 0.2s,box-shadow 0.2s;white-space:nowrap;overflow:hidden;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,0.12);user-select:none;}
+.gantt-bar:hover{filter:brightness(1.08);box-shadow:0 4px 14px rgba(0,0,0,0.18);}
+.gantt-bar.dragging{cursor:grabbing;opacity:0.85;box-shadow:0 8px 24px rgba(0,0,0,0.25);z-index:20;}
+/* Progress overlay on bar */
+.bar-progress-overlay{position:absolute;left:0;top:0;height:100%;border-radius:6px;background:rgba(0,0,0,0.15);pointer-events:none;transition:width 0.4s;}
+/* Resize handles */
+.resize-handle{position:absolute;width:8px;height:100%;top:0;cursor:ew-resize;z-index:5;}
+.resize-handle.left{left:0;border-radius:6px 0 0 6px;}
+.resize-handle.right{right:0;border-radius:0 6px 6px 0;}
+.resize-handle:hover{background:rgba(255,255,255,0.2);}
+/* Milestone diamond */
+.milestone-diamond{position:absolute;width:16px;height:16px;transform:rotate(45deg);border-radius:2px;z-index:10;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;pointer-events:all;background:#F5C842!important;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.35);}
+.milestone-diamond:hover{transform:rotate(45deg) scale(1.35);box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+/* Milestone tooltip */
+.milestone-diamond .ms-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) rotate(-45deg);background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;white-space:nowrap;padding:5px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity 0.18s;box-shadow:0 4px 12px rgba(0,0,0,0.25);z-index:50;}
+.milestone-diamond .ms-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--forest);}
+.milestone-diamond:hover .ms-tooltip{opacity:1;}
+/* Today line */
+.today-line{position:absolute;top:0;bottom:0;width:2px;background:var(--teal);z-index:4;pointer-events:none;}
+.today-label{position:absolute;top:4px;background:var(--teal);color:white;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;transform:translateX(-50%);white-space:nowrap;}
+/* Dep SVG */
+.dep-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:1;overflow:visible;}
+.dep-arrow{stroke:var(--rose);stroke-width:1.5;fill:none;stroke-dasharray:4 3;opacity:0.5;}
+.dep-arrow.critical-dep{stroke:var(--critical);opacity:0.8;stroke-dasharray:none;stroke-width:2;}
+.dep-head{fill:var(--rose);opacity:0.5;}
+.dep-head.critical-dep{fill:var(--critical);opacity:0.8;}
 
-/* DEPENDENCY ARROWS */
-.dep-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
-.dep-arrow { stroke: var(--rose); stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; opacity: 0.6; }
-.dep-head { fill: var(--rose); opacity: 0.6; }
-
-/* ACTIVITY PANEL */
-.panel-overlay { position: fixed; inset: 0; background: rgba(30,46,35,0.4); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.25s; backdrop-filter: blur(2px); }
-.panel-overlay.open { opacity: 1; pointer-events: all; }
-.side-panel { position: fixed; right: 0; top: 0; bottom: 0; width: 440px; background: var(--white); box-shadow: -4px 0 32px rgba(0,0,0,0.15); z-index: 201; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
-.side-panel.open { transform: translateX(0); }
-.panel-header { background: var(--forest); color: var(--cream); padding: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
-.panel-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; line-height: 1.3; }
-.panel-close { background: none; border: none; color: rgba(242,237,227,0.6); font-size: 22px; cursor: pointer; padding: 0 4px; line-height: 1; transition: color 0.2s; }
-.panel-close:hover { color: var(--cream); }
-.panel-body { padding: 20px 24px; }
-.panel-section { margin-bottom: 20px; }
-.panel-section-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
-
-/* ASSIGNEE EDITOR */
-.assignee-editor { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.assignee-tag { display: inline-flex; align-items: center; gap: 5px; background: var(--teal-pale); color: var(--teal); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-.assignee-tag .remove { cursor: pointer; color: var(--teal); font-size: 14px; line-height: 1; transition: color 0.15s; }
-.assignee-tag .remove:hover { color: var(--rose); }
-.add-assignee-wrap { display: flex; gap: 8px; }
-.add-assignee-wrap input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'DM Sans', sans-serif; font-size: 12px; background: var(--cream); color: var(--text); outline: none; transition: border-color 0.2s; }
-.add-assignee-wrap input:focus { border-color: var(--teal); }
-.add-assignee-wrap button { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
-.add-assignee-wrap button:hover { background: var(--forest-light); }
-
-/* ACTIVITIES LIST */
-.activity-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; background: var(--cream); border: 1px solid var(--cream-dark); transition: background 0.15s; }
-.activity-item.done { background: var(--teal-pale); border-color: var(--teal-pale); }
-.activity-item.done .act-text { text-decoration: line-through; color: var(--muted); }
-.act-check { width: 16px; height: 16px; min-width: 16px; border-radius: 4px; border: 2px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; background: white; margin-top: 1px; }
-.act-check.checked { background: var(--teal); border-color: var(--teal); }
-.act-check.checked::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
-.act-text { font-size: 13px; line-height: 1.4; flex: 1; }
-.act-label { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: auto; white-space: nowrap; }
-.act-label.milestone-tag { background: var(--gold-pale); color: var(--gold); }
-.act-label.dep-tag { background: var(--rose-pale); color: var(--rose); }
-
-/* MILESTONE MARKER */
-.milestone-row { position: absolute; width: 14px; height: 14px; background: var(--gold); transform: rotate(45deg); border-radius: 2px; z-index: 3; cursor: pointer; transition: transform 0.2s; }
-.milestone-row:hover { transform: rotate(45deg) scale(1.3); }
-
-/* PROGRESS RING in panel */
-.progress-circle-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-.prog-ring { transform: rotate(-90deg); }
-.prog-ring-bg { fill: none; stroke: var(--cream-dark); stroke-width: 4; }
-.prog-ring-fill { fill: none; stroke: var(--teal); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 0.5s; }
-.prog-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--forest); }
-.prog-sub { font-size: 12px; color: var(--muted); }
-
-/* TODAY LINE */
-.today-line { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--teal); z-index: 4; pointer-events: none; }
-.today-label { position: absolute; top: 4px; background: var(--teal); color: white; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; transform: translateX(-50%); white-space: nowrap; }
+/* WORKLOAD VIEW */
+.wl-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--forest);margin-bottom:6px;}
+.wl-sub{font-size:13px;color:var(--muted);margin-bottom:28px;}
+.wl-person{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:16px;}
+.wl-person-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.wl-avatar{width:36px;height:36px;border-radius:50%;background:var(--teal);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
+.wl-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--forest);}
+.wl-count{font-size:11px;color:var(--muted);margin-top:1px;}
+.wl-months{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;}
+.wl-month-col{text-align:center;}
+.wl-month-label{font-size:9px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:4px;letter-spacing:0.5px;}
+.wl-month-bar{border-radius:4px;min-height:6px;transition:height 0.3s;}
+.wl-month-num{font-size:10px;font-weight:700;margin-top:3px;}
+.wl-initiative-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;margin:2px;color:white;}
 
 /* SCROLLBAR */
-.gantt-body::-webkit-scrollbar { height: 6px; }
-.gantt-body::-webkit-scrollbar-track { background: var(--cream-dark); }
-.gantt-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-@media (max-width: 768px) { .gantt-sidebar { width: 200px; min-width: 200px; } .side-panel { width: 100%; } }
+.gantt-body::-webkit-scrollbar{height:5px;}
+.gantt-body::-webkit-scrollbar-track{background:var(--cream-dark);}
+.gantt-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-left">
+  <div>
     <h1>BWDC Product Team <em>2026</em> Roadmap</h1>
-    <div class="header-sub">Interactive Gantt · Click any bar to manage activities & assignees</div>
+    <div class="header-sub">Interactive Gantt · Click row to expand · Drag bars to reschedule</div>
   </div>
-  <div class="header-right">
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Product-Led</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Cross-Functional</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div> Supporting</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--rose);transform:rotate(45deg)"></div> Milestone</div>
-    </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div>Product-Led</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Cross-Functional</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div>Supporting</div>
+    <div class="legend-item"><div class="legend-diamond"></div>Milestone</div>
+    <div class="legend-item"><div class="legend-critical"></div>Critical Path</div>
   </div>
 </div>
 
 <div class="toolbar">
   <span class="filter-label">Filter:</span>
-  <button class="filter-btn active" onclick="filterTeam('all')">All</button>
-  <button class="filter-btn" onclick="filterTeam('product')">Product-Led</button>
-  <button class="filter-btn" onclick="filterTeam('data')">+ Data</button>
-  <button class="filter-btn" onclick="filterTeam('growth')">+ Growth</button>
-  <button class="filter-btn" onclick="filterTeam('comms')">+ Comms</button>
+  <button class="filter-btn active" onclick="filterTeam('all',this)">All</button>
+  <button class="filter-btn" onclick="filterTeam('product',this)">Product-Led</button>
+  <button class="filter-btn" onclick="filterTeam('data',this)">+ Data</button>
+  <button class="filter-btn" onclick="filterTeam('growth',this)">+ Growth</button>
+  <button class="filter-btn" onclick="filterTeam('comms',this)">+ Comms</button>
+  <div class="toolbar-sep"></div>
+  <button class="view-btn active" onclick="switchView('gantt',this)">Gantt</button>
+  <button class="view-btn" onclick="switchView('workload',this)">Workload</button>
+  <div class="toolbar-sep"></div>
+  <label class="critical-toggle" id="criticalToggle">
+    <input type="checkbox" onchange="toggleCritical(this)"> Critical Path
+  </label>
   <div class="progress-summary">
-    <span>Overall:</span>
-    <div class="overall-bar"><div class="overall-fill" id="overallBar" style="width:0%"></div></div>
+    Overall: <div class="overall-bar"><div class="overall-fill" id="overallBar" style="width:0%"></div></div>
     <span id="overallPct">0%</span>
   </div>
 </div>
 
-<div class="gantt-wrap">
+<div class="view-gantt active" id="viewGantt">
   <div class="gantt-sidebar" id="sidebar"></div>
   <div class="gantt-body" id="ganttBody">
     <div class="months-header" id="monthsHeader"></div>
@@ -193,521 +222,632 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
   </div>
 </div>
 
-<!-- SIDE PANEL -->
-<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
-<div class="side-panel" id="sidePanel">
-  <div class="panel-header">
-    <div class="panel-title" id="panelTitle"></div>
-    <button class="panel-close" onclick="closePanel()">×</button>
-  </div>
-  <div class="panel-body" id="panelBody"></div>
-</div>
+<div class="view-workload" id="viewWorkload"></div>
 
 <script>
-// ── DATA ────────────────────────────────────────────────────────
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const MONTH_W = 90; // px per month
-const TODAY_MONTH = 1; // Feb = index 1
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MW=90,TODAY_M=1;
 
-const TEAM_COLORS = {
-  product: '#4A9B8E', data: '#7A9E7E', growth: '#C8903A', comms: '#C97B6A',
-  ops: '#8A7A9E', cross: '#4A9B8E'
-};
+// ── DATA ─────────────────────────────────────────────────────────
+const initiatives=[
+  {id:'ed-launch',group:'product-led',name:'Launch Explore Data',lead:'Rich',color:'#C8903A',
+   start:1,end:5,team:['product','data','growth','comms'],
+   milestones:[{month:1,label:'Feb: Guided Search'},{month:2,label:'Mar: NLP Search'},{month:3,label:'Apr: Location Search'},{month:4,label:'May: Tables'}],
+   deps:[],critical:true,
+   activities:[
+    {id:'a1',text:'Feb: Guided search + foundational UX + error states',done:false,milestone:true},
+    {id:'a2',text:'Mar: NLP natural language search launch',done:false,milestone:true},
+    {id:'a3',text:'Apr: Location-based search and map enhancements',done:false,milestone:true},
+    {id:'a4',text:'May: Table and ranking-based results',done:false,milestone:true},
+    {id:'a5',text:'Set success criteria across all teams',done:false},
+    {id:'a6',text:'Define launch responsibilities and ownership',done:false},
+   ],assignees:['Rich'],comments:[]},
 
-const initiatives = [
-  // GROUP: PRODUCT-LED
-  { id:'ed-launch', group:'product-led', name:'Launch Explore Data', lead:'Rich', color:'#C8903A',
-    start:1, end:4, team:['product','data','growth','comms'],
-    milestones:[{month:1,label:'Feb: Guided Search'},{month:2,label:'Mar: NLP Search'},{month:3,label:'Apr: Location Search'},{month:4,label:'May: Tables & Rankings'}],
-    deps:[],
-    activities:[
-      {id:'a1',text:'Feb: Guided search + foundational UX + error states',done:false,milestone:true},
-      {id:'a2',text:'Mar: NLP natural language search launch',done:false,milestone:true},
-      {id:'a3',text:'Apr: Location-based search and map enhancements',done:false,milestone:true},
-      {id:'a4',text:'May: Table and ranking-based results',done:false,milestone:true},
-      {id:'a5',text:'Set success criteria for each team',done:false},
-      {id:'a6',text:'Establish clear launch responsibilities across teams',done:false},
-    ], assignees:['Rich','Jae'] },
+  {id:'feature-explore',group:'product-led',name:'Feature Exploration & R&D',lead:'Rich',color:'#4A9B8E',
+   start:1,end:11,team:['product'],
+   milestones:[{month:5,label:'Site Search Live'},{month:8,label:'LWE Overlay'}],
+   deps:['ed-launch'],critical:true,
+   activities:[
+    {id:'b1',text:'Overall Site Search: Add article summaries to results',done:false},
+    {id:'b2',text:'LWE: Add download and overlay capability',done:false},
+    {id:'b3',text:'Track CTR improvement post global search',done:false},
+    {id:'b4',text:'Measure LWE overlay feature adoption',done:false},
+   ],assignees:['Rich'],comments:[]},
 
-  { id:'feature-explore', group:'product-led', name:'Feature Exploration & R&D', lead:'Rich', color:'#4A9B8E',
-    start:1, end:11, team:['product'],
-    milestones:[{month:5,label:'Q2: Site Search Live'},{month:8,label:'Q3: LWE Overlay'}],
-    deps:['ed-launch'],
-    activities:[
-      {id:'b1',text:'Overall Site Search: Add article summaries to results',done:false},
-      {id:'b2',text:'LWE: Add download and overlay capability for users',done:false},
-      {id:'b3',text:'Track CTR improvement post global search',done:false},
-      {id:'b4',text:'Measure LWE overlay feature adoption',done:false},
-    ], assignees:['Rich'] },
+  {id:'member-reg',group:'product-led',name:'Member Registration & Personalization',lead:'Rich',color:'#4A9B8E',
+   start:0,end:5,team:['product','growth'],
+   milestones:[{month:3,label:'New Onboarding Live'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'c1',text:'Add new roles and industries to user profile',done:false},
+    {id:'c2',text:'Implement new user onboarding flows',done:false,milestone:true},
+    {id:'c3',text:'Profile dashboard personalization',done:false},
+    {id:'c4',text:'Align with Comms and Growth on revised roles list',done:false},
+   ],assignees:['Rich'],comments:[]},
 
-  { id:'member-reg', group:'product-led', name:'Member Registration & Personalization', lead:'Rich', color:'#4A9B8E',
-    start:0, end:5, team:['product','growth'],
-    milestones:[{month:3,label:'New onboarding live'}],
-    deps:[],
-    activities:[
-      {id:'c1',text:'Add new roles and industries to user profile',done:false},
-      {id:'c2',text:'Implement new user onboarding flows',done:false,milestone:true},
-      {id:'c3',text:'Profile dashboard personalization',done:false},
-      {id:'c4',text:'Align with Comms and Growth on revised roles list',done:false},
-    ], assignees:['Rich'] },
+  {id:'arch-rebuild',group:'product-led',name:'Rebuild Architecture — Growth Support',lead:'Rich',color:'#C97B6A',
+   start:0,end:5,team:['product','growth'],
+   milestones:[{month:2,label:'Phase 1 Complete'},{month:5,label:'CRM Live'}],
+   deps:['member-reg'],critical:false,
+   activities:[
+    {id:'d1',text:'Phase 1: Webinar registration system',done:false,milestone:true},
+    {id:'d2',text:'Phase 1: Redesign Contact/Inquiry system',done:false},
+    {id:'d3',text:'Phase 2: Dedicated landing pages',done:false},
+    {id:'d4',text:'Phase 2: CRM set-up',done:false},
+   ],assignees:['Rich'],comments:[]},
 
-  { id:'arch-rebuild', group:'product-led', name:'Rebuild Architecture — Growth Support', lead:'Rich', color:'#C97B6A',
-    start:0, end:5, team:['product','growth'],
-    milestones:[{month:2,label:'Phase 1 Complete'},{month:5,label:'CRM Live'}],
-    deps:['member-reg'],
-    activities:[
-      {id:'d1',text:'Phase 1: Webinar registration system',done:false,milestone:true},
-      {id:'d2',text:'Phase 1: Redesign Contact/Inquiry system',done:false},
-      {id:'d3',text:'Phase 2: Create dedicated landing pages',done:false},
-      {id:'d4',text:'Phase 2: CRM set-up',done:false},
-    ], assignees:['Rich'] },
+  {id:'user-research',group:'product-led',name:'Establish User Research Practice',lead:'Jake/Devyn',color:'#4A9B8E',
+   start:1,end:11,team:['product','growth','comms'],
+   milestones:[{month:5,label:'First Workshop'},{month:11,label:'Annual Report'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'e1',text:'30-60-90 follow-up interviews for new releases',done:false},
+    {id:'e2',text:'Monthly user interviews program',done:false},
+    {id:'e3',text:'Quarterly User Insight Workshop',done:false,milestone:true},
+    {id:'e4',text:'Annual State of User Research Report',done:false,milestone:true},
+   ],assignees:['Jake','Devyn'],comments:[]},
 
-  { id:'user-research', group:'product-led', name:'Establish User Research Practice', lead:'Jake/Rich/Devyn', color:'#4A9B8E',
-    start:1, end:11, team:['product','growth','comms'],
-    milestones:[{month:5,label:'First Quarterly Workshop'},{month:11,label:'Annual Report'}],
-    deps:[],
-    activities:[
-      {id:'e1',text:'30-60-90 follow-up interviews for new releases',done:false},
-      {id:'e2',text:'Monthly user interviews program',done:false},
-      {id:'e3',text:'Quarterly User Insight Workshop',done:false,milestone:true},
-      {id:'e4',text:'Annual State of User Research Report',done:false,milestone:true},
-    ], assignees:['Jake','Devyn'] },
+  {id:'ai-strategy',group:'product-led',name:'Internal AI Strategy',lead:'Harsha',color:'#7A9E7E',
+   start:0,end:8,team:['product','data'],
+   milestones:[{month:3,label:'Advisory Board Set'},{month:11,label:'AI Pilot Live'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'f1',text:'Identify staff from every dept for AI committee',done:false},
+    {id:'f2',text:'Draft AI vision/mission',done:false},
+    {id:'f3',text:'Convene bi-weekly working sessions',done:false},
+    {id:'f4',text:'Set up AI advisory board',done:false,milestone:true},
+    {id:'f5',text:'Brief ED and board on AI pilots',done:false},
+   ],assignees:['Harsha'],comments:[]},
 
-  { id:'ai-strategy', group:'product-led', name:'Internal AI Strategy', lead:'Harsha', color:'#7A9E7E',
-    start:0, end:8, team:['product','data'],
-    milestones:[{month:3,label:'Advisory Board Set'},{month:11,label:'AI Pilot Live'}],
-    deps:[],
-    activities:[
-      {id:'f1',text:'Identify staff from every dept for AI committee',done:false},
-      {id:'f2',text:'Draft AI vision/mission',done:false},
-      {id:'f3',text:'Convene bi-weekly working sessions',done:false},
-      {id:'f4',text:'Set up AI advisory board',done:false,milestone:true},
-      {id:'f5',text:'Brief ED and board on AI pilots',done:false},
-    ], assignees:['Harsha'] },
+  {id:'platform-migration',group:'product-led',name:'Platform Migration Analysis',lead:'Harsha/Rich/Julie',color:'#8A7A9E',
+   start:0,end:11,team:['product','data','ops'],
+   milestones:[{month:5,label:'SWOT to Leadership'},{month:11,label:'Migration Decision'}],
+   deps:[],critical:true,
+   activities:[
+    {id:'g1',text:'Complete SWOT analysis for platform migration',done:false},
+    {id:'g2',text:'Share recommendation with Tene and JHU',done:false,milestone:true},
+    {id:'g3',text:'Develop JHU stakeholder engagement plan',done:false},
+    {id:'g4',text:'Determine level of effort and cost',done:false},
+   ],assignees:['Harsha','Rich','Julie'],comments:[]},
 
-  { id:'platform-migration', group:'product-led', name:'Platform Migration Analysis', lead:'Harsha/Rich/Julie', color:'#8A7A9E',
-    start:0, end:11, team:['product','data','ops'],
-    milestones:[{month:5,label:'SWOT to Leadership'},{month:11,label:'Migration Decision'}],
-    deps:[],
-    activities:[
-      {id:'g1',text:'Complete SWOT analysis for platform migration',done:false},
-      {id:'g2',text:'Share recommendation with Tene and JHU',done:false,milestone:true},
-      {id:'g3',text:'Develop JHU stakeholder engagement plan',done:false},
-      {id:'g4',text:'Determine level of effort and cost',done:false},
-    ], assignees:['Harsha','Rich','Julie'] },
+  {id:'feedback-nps',group:'product-led',name:'Implement NPS Feedback Loop',lead:'Rich',color:'#4A9B8E',
+   start:2,end:9,team:['product','growth','comms'],
+   milestones:[{month:5,label:'NPS Live'}],
+   deps:['ed-launch'],critical:false,
+   activities:[
+    {id:'h1',text:'Determine if NPS is right approach',done:false},
+    {id:'h2',text:'Implement satisfaction surveys across user flows',done:false,milestone:true},
+    {id:'h3',text:'Integrate surveys into email campaigns',done:false},
+   ],assignees:['Rich'],comments:[]},
 
-  { id:'feedback-nps', group:'product-led', name:'Implement NPS Feedback Loop', lead:'Rich', color:'#4A9B8E',
-    start:2, end:9, team:['product','growth','comms'],
-    milestones:[{month:5,label:'NPS Live'}],
-    deps:['ed-launch'],
-    activities:[
-      {id:'h1',text:'Determine if NPS is right approach',done:false},
-      {id:'h2',text:'Implement satisfaction surveys across user flows',done:false,milestone:true},
-      {id:'h3',text:'Integrate surveys into email campaigns',done:false},
-    ], assignees:['Rich'] },
+  {id:'private-data',group:'supporting-data',name:'Acquire Private Data (Support)',lead:'Harsha',color:'#7A9E7E',
+   start:0,end:11,team:['data','product'],
+   milestones:[{month:5,label:'5 Datasets Target'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'i1',text:'Surface commercial data findings on platform',done:false},
+    {id:'i2',text:'Ensure new data assets are discoverable in UX',done:false},
+    {id:'i3',text:'Work with Comms to highlight insights',done:false},
+   ],assignees:['Harsha'],comments:[]},
 
-  // GROUP: SUPPORTING DATA
-  { id:'private-data', group:'supporting-data', name:'Acquire Private Data (Support)', lead:'Harsha', color:'#7A9E7E',
-    start:0, end:11, team:['data','product'],
-    milestones:[{month:5,label:'5 Datasets Target'}],
-    deps:[],
-    activities:[
-      {id:'i1',text:'Surface commercial data findings on platform',done:false},
-      {id:'i2',text:'Ensure new data assets are discoverable in UX',done:false},
-      {id:'i3',text:'Work with Comms to highlight insights on social',done:false},
-    ], assignees:['Harsha'] },
+  {id:'forecasting',group:'supporting-data',name:'Data R&D — Forecasting & Simulation',lead:'Harsha/Cara',color:'#7A9E7E',
+   start:3,end:11,team:['data','product'],
+   milestones:[{month:5,label:'Forecasting on Explore'}],
+   deps:['ed-launch'],critical:false,
+   activities:[
+    {id:'j1',text:'Forecasting estimates in Explore platform',done:false,milestone:true},
+    {id:'j2',text:'Identify 3-5 cities for tangled titles data',done:false},
+    {id:'j3',text:'Track user engagement with R&D assets',done:false},
+   ],assignees:['Harsha','Cara'],comments:[]},
 
-  { id:'forecasting', group:'supporting-data', name:'Data R&D — Forecasting & Simulation', lead:'Harsha/Cara', color:'#7A9E7E',
-    start:3, end:11, team:['data','product'],
-    milestones:[{month:5,label:'Forecasting on Explore'}],
-    deps:['ed-launch'],
-    activities:[
-      {id:'j1',text:'Work with Design & Product on forecasting estimates in Explore',done:false,milestone:true},
-      {id:'j2',text:'Identify 3-5 cities for tangled titles data',done:false},
-      {id:'j3',text:'Track user engagement with R&D assets on platform',done:false},
-    ], assignees:['Harsha','Cara'] },
+  {id:'member-strategy',group:'supporting-growth',name:'Develop Member Engagement Strategy',lead:'Monique/Rich',color:'#C8903A',
+   start:1,end:4,team:['product','growth','comms'],
+   milestones:[{month:3,label:'Strategy Complete'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'k1',text:'Define what members get vs. non-members',done:false},
+    {id:'k2',text:'Design tiered system incentivizing registration',done:false,milestone:true},
+    {id:'k3',text:'Hold focus groups of current and potential users',done:false},
+    {id:'k4',text:'Build out 5 core use cases',done:false},
+   ],assignees:['Monique','Rich'],comments:[]},
 
-  // GROUP: SUPPORTING GROWTH
-  { id:'member-strategy', group:'supporting-growth', name:'Develop Member Engagement Strategy', lead:'Monique/Rich', color:'#C8903A',
-    start:1, end:4, team:['product','growth','comms'],
-    milestones:[{month:3,label:'Strategy Complete'}],
-    deps:[],
-    activities:[
-      {id:'k1',text:'Define what members get vs. non-members',done:false},
-      {id:'k2',text:'Design tiered system incentivizing registration',done:false,milestone:true},
-      {id:'k3',text:'Hold focus groups of current and potential users',done:false},
-      {id:'k4',text:'Build out 5 core use cases',done:false},
-    ], assignees:['Monique','Rich'] },
+  {id:'listening-tour',group:'supporting-growth',name:'Listening & Activation Tour',lead:'Monique',color:'#C8903A',
+   start:1,end:3,team:['product','growth','comms','data','ops'],
+   milestones:[{month:2,label:'Tour Launches'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'l1',text:'Pressure test wealth data activation',done:false},
+    {id:'l2',text:'Engage 50%+ of existing partner list',done:false,milestone:true},
+    {id:'l3',text:'Feed insights back into Explore Data roadmap',done:false},
+   ],assignees:['Monique'],comments:[]},
 
-  { id:'listening-tour', group:'supporting-growth', name:'Listening & Activation Tour', lead:'Monique', color:'#C8903A',
-    start:1, end:3, team:['product','growth','comms','data','ops'],
-    milestones:[{month:2,label:'Tour Launches'}],
-    deps:[],
-    activities:[
-      {id:'l1',text:'Pressure test wealth data activation',done:false},
-      {id:'l2',text:'Engage 50%+ of existing partner list',done:false,milestone:true},
-      {id:'l3',text:'Feed insights back into Explore Data roadmap',done:false},
-    ], assignees:['Monique'] },
+  {id:'rapid-rename',group:'supporting-comms',name:'Rapid Rename (Brand Support)',lead:'Jermaine',color:'#C97B6A',
+   start:0,end:3,team:['product','comms','data','growth','ops'],
+   milestones:[{month:1,label:'Internal Rollout'},{month:3,label:'External Rollout'}],
+   deps:[],critical:false,
+   activities:[
+    {id:'m1',text:'Internal rollout — platform naming updated',done:false,milestone:true},
+    {id:'m2',text:'External rollout — digital properties updated',done:false,milestone:true},
+    {id:'m3',text:'Alignment with SoGP announcements',done:false},
+   ],assignees:['Jermaine'],comments:[]},
 
-  // GROUP: SUPPORTING COMMS
-  { id:'rapid-rename', group:'supporting-comms', name:'Rapid Rename (Brand Support)', lead:'Jermaine', color:'#C97B6A',
-    start:0, end:3, team:['product','comms','data','growth','ops'],
-    milestones:[{month:1,label:'Internal Rollout'},{month:3,label:'External Rollout'}],
-    deps:[],
-    activities:[
-      {id:'m1',text:'Internal rollout — platform naming updated',done:false,milestone:true},
-      {id:'m2',text:'External rollout — digital properties updated',done:false,milestone:true},
-      {id:'m3',text:'Alignment with SoGP announcements',done:false},
-    ], assignees:['Jermaine'] },
-
-  { id:'brand-integration', group:'supporting-comms', name:'Brand Integration', lead:'Jermaine', color:'#C97B6A',
-    start:0, end:3, team:['product','comms','data','growth','ops'],
-    milestones:[{month:3,label:'Brand Live Across Platform'}],
-    deps:['rapid-rename'],
-    activities:[
-      {id:'n1',text:'Ensure new brand voice implemented across product surfaces',done:false},
-      {id:'n2',text:'Update visual identity assets in all digital tools',done:false,milestone:true},
-      {id:'n3',text:'Provide easy-access brand file to all team members',done:false},
-    ], assignees:['Jermaine'] },
+  {id:'brand-integration',group:'supporting-comms',name:'Brand Integration',lead:'Jermaine',color:'#C97B6A',
+   start:0,end:3,team:['product','comms','data','growth','ops'],
+   milestones:[{month:3,label:'Brand Live Across Platform'}],
+   deps:['rapid-rename'],critical:false,
+   activities:[
+    {id:'n1',text:'Implement new brand voice across product surfaces',done:false},
+    {id:'n2',text:'Update visual identity assets in all digital tools',done:false,milestone:true},
+    {id:'n3',text:'Provide brand file to all team members',done:false},
+   ],assignees:['Jermaine'],comments:[]},
 ];
 
-const GROUPS = [
-  { id:'product-led',      label:'Product-Led Initiatives',    color:'#4A9B8E' },
-  { id:'supporting-data',  label:'Supporting Data Team',        color:'#7A9E7E' },
-  { id:'supporting-growth',label:'Supporting Growth Team',      color:'#C8903A' },
-  { id:'supporting-comms', label:'Supporting Comms Team',       color:'#C97B6A' },
+const GROUPS=[
+  {id:'product-led',label:'Product-Led Initiatives',color:'#4A9B8E'},
+  {id:'supporting-data',label:'Supporting Data Team',color:'#7A9E7E'},
+  {id:'supporting-growth',label:'Supporting Growth Team',color:'#C8903A'},
+  {id:'supporting-comms',label:'Supporting Comms Team',color:'#C97B6A'},
 ];
 
-// ── STATE ────────────────────────────────────────────────────────
-let collapsed = {};
-let activeFilter = 'all';
+// ── STATE ─────────────────────────────────────────────────────────
+let collapsed={},expanded={},activeFilter='all',showCritical=false;
+let dragState=null,resizeState=null;
 
-// ── RENDER ───────────────────────────────────────────────────────
-function render() {
+// ── LOCALSTORAGE ──────────────────────────────────────────────────
+function saveState(){
+  const s={activities:{},assignees:{},comments:{},starts:{},ends:{}};
+  initiatives.forEach(i=>{
+    s.activities[i.id]=i.activities.map(a=>a.done);
+    s.assignees[i.id]=[...i.assignees];
+    s.comments[i.id]=[...i.comments];
+    s.starts[i.id]=i.start;
+    s.ends[i.id]=i.end;
+  });
+  localStorage.setItem('bwdc_gantt_v2',JSON.stringify(s));
+}
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem('bwdc_gantt_v2'));
+    if(!s)return;
+    initiatives.forEach(i=>{
+      if(s.activities[i.id]) i.activities.forEach((a,idx)=>{a.done=s.activities[i.id][idx]??a.done;});
+      if(s.assignees[i.id]) i.assignees=s.assignees[i.id];
+      if(s.comments[i.id]) i.comments=s.comments[i.id];
+      if(s.starts[i.id]!==undefined) i.start=s.starts[i.id];
+      if(s.ends[i.id]!==undefined) i.end=s.ends[i.id];
+    });
+  }catch(e){}
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function getPct(init){
+  if(!init.activities.length)return 0;
+  return Math.round(init.activities.filter(a=>a.done).length/init.activities.length*100);
+}
+function updateOverall(){
+  const all=initiatives.flatMap(i=>i.activities);
+  const pct=all.length?Math.round(all.filter(a=>a.done).length/all.length*100):0;
+  document.getElementById('overallBar').style.width=pct+'%';
+  document.getElementById('overallPct').textContent=pct+'%';
+}
+function matchesFilter(init){
+  if(activeFilter==='all')return true;
+  if(activeFilter==='product')return init.group==='product-led';
+  return init.team.includes(activeFilter);
+}
+function isCriticalPath(init){
+  if(!showCritical)return false;
+  return init.critical;
+}
+
+// ── RENDER ─────────────────────────────────────────────────────────
+function render(){
   renderMonths();
   renderRows();
   updateOverall();
 }
 
-function renderMonths() {
-  const hdr = document.getElementById('monthsHeader');
-  hdr.innerHTML = MONTHS.map((m,i) =>
-    `<div class="month-cell ${i===TODAY_MONTH?'current':''}">${m}</div>`
-  ).join('');
-  hdr.style.minWidth = (MONTHS.length * MONTH_W) + 'px';
+function renderMonths(){
+  const hdr=document.getElementById('monthsHeader');
+  hdr.innerHTML=MONTHS.map((m,i)=>`<div class="month-cell ${i===TODAY_M?'current':''}">${m}</div>`).join('');
+  hdr.style.minWidth=(MONTHS.length*MW)+'px';
 }
 
-function renderRows() {
-  const sidebar = document.getElementById('sidebar');
-  const barsArea = document.getElementById('barsArea');
-  sidebar.innerHTML = `<div class="sidebar-header">Initiative</div>`;
-  barsArea.innerHTML = `<div class="months-header" id="monthsHeader2" style="min-width:${MONTHS.length*MONTH_W}px">
-    ${MONTHS.map((m,i)=>`<div class="month-cell ${i===TODAY_MONTH?'current':''}">${m}</div>`).join('')}
-  </div>`;
-  // today line
-  const todayLeft = TODAY_MONTH * MONTH_W + 15;
-  barsArea.innerHTML += `<div class="today-line" style="left:${todayLeft}px"><div class="today-label" style="left:0">TODAY</div></div>`;
+function renderRows(){
+  const sb=document.getElementById('sidebar');
+  const ba=document.getElementById('barsArea');
+  const totalW=MONTHS.length*MW;
+  sb.innerHTML=`<div class="sidebar-header">Initiative</div>`;
+  ba.innerHTML=`<div class="today-line" style="left:${TODAY_M*MW+15}px"><div class="today-label" style="left:0">TODAY</div></div>`;
 
-  // dep SVG overlay (drawn after bars)
-  let depSVGLines = [];
+  GROUPS.forEach(group=>{
+    const gi=initiatives.filter(i=>i.group===group.id&&matchesFilter(i));
+    if(!gi.length)return;
+    const isColl=collapsed[group.id];
 
-  const barRowsMap = {};
-
-  GROUPS.forEach(group => {
-    const groupInits = initiatives.filter(i => i.group === group.id && matchesFilter(i));
-    if (!groupInits.length) return;
-    const isCollapsed = collapsed[group.id];
-
-    // Group header sidebar
-    sidebar.innerHTML += `<div class="group-row ${isCollapsed?'collapsed':''}" onclick="toggleGroup('${group.id}')" style="border-left:4px solid ${group.color}">
-      <span class="group-chevron">▾</span>
-      <span>${group.label}</span>
-      <span style="margin-left:auto;font-size:10px;opacity:0.6">${groupInits.length}</span>
+    sb.innerHTML+=`<div class="group-row ${isColl?'collapsed':''}" onclick="toggleGroup('${group.id}')" style="border-left:4px solid ${group.color}">
+      <span class="group-chevron">▾</span><span>${group.label}</span>
+      <span style="margin-left:auto;font-size:10px;opacity:0.6">${gi.length}</span>
     </div>`;
-    // Group header bar area
-    barsArea.innerHTML += `<div class="group-bar-row" style="background:${group.color}22;border-left:4px solid ${group.color};min-width:${MONTHS.length*MONTH_W}px"></div>`;
+    ba.innerHTML+=`<div class="group-bar-row" style="border-left:4px solid ${group.color};min-width:${totalW}px;background:${group.color}15"></div>`;
 
-    groupInits.forEach((init, idx) => {
-      const pct = getProgress(init);
-      const barColor = init.color;
-      const rowClass = isCollapsed ? 'init-row hidden' : 'init-row';
-      const rowId = `row-${init.id}`;
+    gi.forEach(init=>{
+      const pct=getPct(init);
+      const rowClass=(isColl?'init-row hidden':'init-row')+(isCriticalPath(init)?' critical':'');
+      const isExpanded=expanded[init.id];
 
-      // Sidebar row
-      sidebar.innerHTML += `<div class="${rowClass}" id="sidebar-${init.id}" style="border-left:3px solid ${barColor}">
-        <div class="init-sidebar">
-          <div class="init-name">${init.name}</div>
-          <div class="init-meta">
-            <span class="init-lead" style="color:${barColor}">⬤</span>
-            <span class="init-lead">${init.lead}</span>
+      // Sidebar
+      sb.innerHTML+=`<div class="${rowClass}" id="sb-${init.id}" style="border-left:3px solid ${init.color}">
+        <div class="init-sidebar" onclick="toggleExpand('${init.id}')">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:9px;color:${init.color};transition:transform 0.2s;display:inline-block;transform:rotate(${isExpanded?90:0}deg)" id="chev-${init.id}">▶</span>
+            <div class="init-name">${init.name}</div>
           </div>
+          <div class="init-lead" style="color:${init.color}">● ${init.lead}</div>
           <div class="progress-wrap">
-            <div class="progress-track"><div class="progress-fill" id="prog-${init.id}" style="width:${pct}%;background:${barColor}"></div></div>
+            <div class="progress-track"><div class="progress-fill" id="prog-${init.id}" style="width:${pct}%;background:${init.color}"></div></div>
             <span class="progress-pct" id="pct-${init.id}">${pct}%</span>
           </div>
-          <div class="assignees" id="chips-${init.id}">
-            ${init.assignees.map(a=>`<span class="assignee-chip" onclick="openPanel('${init.id}')">${a}</span>`).join('')}
-            <span class="assignee-chip add-btn" onclick="openPanel('${init.id}')">+ Add</span>
+          <div class="assignees">
+            ${init.assignees.map(a=>`<span class="assignee-chip">${a}</span>`).join('')}
           </div>
+        </div>
+        <div class="activities-dropdown ${isExpanded?'open':''}" id="drop-${init.id}">
+          ${renderDropdown(init)}
         </div>
       </div>`;
 
       // Bar row
-      const gridCols = MONTHS.map((_,i)=>`<div class="bar-grid-col ${i===TODAY_MONTH?'today-col':''}"></div>`).join('');
-      const barLeft = init.start * MONTH_W + 6;
-      const barWidth = (init.end - init.start) * MONTH_W - 12;
-
-      // Milestone diamonds
-      const milestoneHtml = (init.milestones||[]).map(m => {
-        const ml = m.month * MONTH_W + (MONTH_W/2) - 9;
-        return `<div class="milestone-row" style="left:${ml}px;top:calc(50% - 7px);background:${barColor}" title="${m.label}" onclick="openPanel('${init.id}')"></div>`;
+      const bl=init.start*MW+4,bw=(init.end-init.start)*MW-8;
+      const grid=MONTHS.map((_,i)=>`<div class="bar-grid-col ${i===TODAY_M?'today-col':''}"></div>`).join('');
+      const msDiamonds=(init.milestones||[]).map(m=>{
+        const ml=m.month*MW+(MW/2)-8;
+        return `<div class="milestone-diamond" style="left:${ml}px;top:calc(50% - 8px);"><span class="ms-tooltip">${m.label}</span></div>`;
       }).join('');
 
-      barsArea.innerHTML += `<div class="${rowClass} bar-row" id="${rowId}" style="min-width:${MONTHS.length*MONTH_W}px" data-group="${group.id}">
-        <div class="bar-grid">${gridCols}</div>
-        <div class="gantt-bar" style="left:${barLeft}px;width:${barWidth}px;background:${barColor};" onclick="openPanel('${init.id}')" title="${init.name}">
-          ${init.name.substring(0,28)}${init.name.length>28?'…':''}
+      ba.innerHTML+=`<div class="${rowClass} bar-row" id="bar-${init.id}" data-group="${group.id}" style="min-width:${totalW}px">
+        <div class="bar-grid">${grid}</div>
+        <div class="gantt-bar ${isCriticalPath(init)?'critical-bar':''}" id="gbar-${init.id}"
+          style="left:${bl}px;width:${bw}px;background:${init.color};"
+          data-id="${init.id}" title="${init.name}">
+          <div class="bar-progress-overlay" style="width:${100-pct}%;margin-left:${pct}%"></div>
+          <div class="resize-handle left" data-id="${init.id}" data-side="left"></div>
+          ${init.name.substring(0,24)}${init.name.length>24?'…':''}
+          <div class="resize-handle right" data-id="${init.id}" data-side="right"></div>
         </div>
-        ${milestoneHtml}
-      </div>`;
-
-      barRowsMap[init.id] = { top: 0, left: barLeft + barWidth };
+        ${msDiamonds}
+      </div>
+      <div class="init-row ${isColl?'hidden':''} ${isExpanded?'':'hidden'}" id="barexp-${init.id}" style="min-width:${totalW}px;background:var(--cream);height:4px;border-bottom:1px dashed var(--border)"></div>`;
     });
   });
 
-  // Draw dependency arrows
-  setTimeout(drawDeps, 50);
+  setTimeout(drawDeps,60);
+  setupDragResize();
 }
 
-function drawDeps() {
-  const barsArea = document.getElementById('barsArea');
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.classList.add('dep-svg');
-  svg.style.position = 'absolute';
-  svg.style.top = '0'; svg.style.left = '0';
-  svg.style.width = '100%'; svg.style.height = '100%';
-  svg.style.pointerEvents = 'none';
-  svg.style.zIndex = '1';
-  svg.style.overflow = 'visible';
-
-  initiatives.forEach(init => {
-    if (!init.deps || !init.deps.length) return;
-    const toRow = document.getElementById(`row-${init.id}`);
-    if (!toRow || toRow.classList.contains('hidden')) return;
-    init.deps.forEach(depId => {
-      const fromRow = document.getElementById(`row-${depId}`);
-      if (!fromRow || fromRow.classList.contains('hidden')) return;
-      const fromInit = initiatives.find(i=>i.id===depId);
-      if (!fromInit) return;
-
-      const fromRect = fromRow.getBoundingClientRect();
-      const toRect = toRow.getBoundingClientRect();
-      const areaRect = barsArea.getBoundingClientRect();
-
-      const x1 = fromInit.end * MONTH_W - 6;
-      const y1 = fromRect.top - areaRect.top + fromRect.height/2;
-      const x2 = init.start * MONTH_W + 6;
-      const y2 = toRect.top - areaRect.top + toRect.height/2;
-      const cx = (x1 + x2) / 2;
-
-      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-      path.setAttribute('class','dep-arrow');
-      path.setAttribute('d',`M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`);
-
-      const arrow = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-      arrow.setAttribute('class','dep-head');
-      arrow.setAttribute('points',`${x2},${y2} ${x2-8},${y2-4} ${x2-8},${y2+4}`);
-
-      svg.appendChild(path);
-      svg.appendChild(arrow);
-    });
-  });
-
-  barsArea.appendChild(svg);
-}
-
-// ── PANEL ────────────────────────────────────────────────────────
-let currentInitId = null;
-
-function openPanel(initId) {
-  currentInitId = initId;
-  const init = initiatives.find(i=>i.id===initId);
-  if (!init) return;
-  document.getElementById('panelTitle').textContent = init.name;
-  renderPanel(init);
-  document.getElementById('overlay').classList.add('open');
-  document.getElementById('sidePanel').classList.add('open');
-}
-
-function closePanel() {
-  document.getElementById('overlay').classList.remove('open');
-  document.getElementById('sidePanel').classList.remove('open');
-  currentInitId = null;
-}
-
-function renderPanel(init) {
-  const pct = getProgress(init);
-  const done = init.activities.filter(a=>a.done).length;
-  const total = init.activities.length;
-  const r = 28; const circ = 2*Math.PI*r;
-  const offset = circ - (pct/100)*circ;
-
-  document.getElementById('panelBody').innerHTML = `
-    <div class="panel-section">
-      <div class="panel-section-title">Progress</div>
-      <div class="progress-circle-wrap">
-        <svg width="72" height="72" class="prog-ring">
-          <circle class="prog-ring-bg" cx="36" cy="36" r="${r}"/>
-          <circle class="prog-ring-fill" cx="36" cy="36" r="${r}" stroke-dasharray="${circ}" stroke-dashoffset="${offset}" style="stroke:${init.color}"/>
-        </svg>
-        <div>
-          <div class="prog-text">${pct}%</div>
-          <div class="prog-sub">${done} of ${total} activities done</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel-section">
-      <div class="panel-section-title">Assignees</div>
-      <div class="assignee-editor" id="panel-assignees">
-        ${init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="remove" onclick="removeAssignee('${init.id}','${a}')">×</span></span>`).join('')}
-      </div>
-      <div class="add-assignee-wrap">
-        <input type="text" id="newAssigneeInput" placeholder="Add name..." onkeydown="if(event.key==='Enter')addAssignee('${init.id}')">
-        <button onclick="addAssignee('${init.id}')">Add</button>
-      </div>
-    </div>
-
-    <div class="panel-section">
-      <div class="panel-section-title">Activities & Milestones — check off to update progress</div>
-      <div id="activities-list">
-        ${init.activities.map(a => `
-          <div class="activity-item ${a.done?'done':''}" id="act-${a.id}">
-            <div class="act-check ${a.done?'checked':''}" onclick="toggleActivity('${init.id}','${a.id}')"></div>
-            <div class="act-text">${a.text}</div>
-            ${a.milestone?`<span class="act-label milestone-tag">Milestone</span>`:''}
-          </div>`).join('')}
-      </div>
-    </div>
-
-    ${init.deps&&init.deps.length?`
-    <div class="panel-section">
-      <div class="panel-section-title">Dependencies</div>
-      ${init.deps.map(d=>{
-        const dep = initiatives.find(i=>i.id===d);
-        return dep?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--rose-pale);border-radius:8px;margin-bottom:6px;font-size:12px;">
-          <span style="color:var(--rose)">→</span>
-          <span>Depends on: <strong>${dep.name}</strong></span>
-          <span style="margin-left:auto;font-size:11px;color:var(--muted)">${getProgress(dep)}% done</span>
-        </div>`:'';
-      }).join('')}
+function renderDropdown(init){
+  const pct=getPct(init);
+  return `<div class="act-dropdown-inner">
+    <div class="act-section-title">Activities — ${init.activities.filter(a=>a.done).length}/${init.activities.length} done · ${pct}%</div>
+    ${init.activities.map(a=>`
+      <div class="act-item ${a.done?'done':''}" id="act-${a.id}">
+        <div class="act-check ${a.done?'checked':''}" onclick="toggleAct('${init.id}','${a.id}',event)"></div>
+        <div class="act-text">${a.text}</div>
+        ${a.milestone?`<span class="act-badge ms">Milestone</span>`:''}
+      </div>`).join('')}
+    ${init.deps&&init.deps.length?`<div style="margin-top:8px;padding:7px 10px;background:var(--rose-pale);border-radius:8px;font-size:11px;color:var(--rose);">
+      🔗 Depends on: ${init.deps.map(d=>{const di=initiatives.find(i=>i.id===d);return di?`<strong>${di.name}</strong>`:d;}).join(', ')}
     </div>`:''}
-
-    ${init.milestones&&init.milestones.length?`
-    <div class="panel-section">
-      <div class="panel-section-title">Timeline Milestones</div>
-      ${init.milestones.map(m=>`
-        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--gold-pale);border-radius:8px;margin-bottom:6px;font-size:12px;">
-          <span style="color:var(--gold);font-size:16px">◆</span>
-          <span><strong>${MONTHS[m.month]}</strong> — ${m.label}</span>
+    <div class="assignee-editor-row">
+      <span style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-right:4px;">Assignees:</span>
+      ${init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="rm" onclick="removeAssignee('${init.id}','${a}',event)">×</span></span>`).join('')}
+      <input class="add-input" id="ainput-${init.id}" placeholder="Add name…" onkeydown="if(event.key==='Enter'){addAssignee('${init.id}',event);}">
+      <button class="add-btn-sm" onclick="addAssignee('${init.id}',event)">Add</button>
+    </div>
+    <div class="comments-section">
+      <div class="act-section-title" style="margin-top:8px;">Comments (${init.comments.length})</div>
+      <div id="cmts-${init.id}">
+        ${init.comments.map(c=>`<div class="comment-item">
+          <div class="comment-meta"><span class="comment-author">${c.author}</span><span>${c.time}</span></div>
+          <div class="comment-text">${c.text}</div>
         </div>`).join('')}
-    </div>`:''}
-  `;
+      </div>
+      <div class="comment-input-row">
+        <input class="comment-author-input" id="cauthor-${init.id}" placeholder="Your name">
+        <textarea class="comment-input" id="ctext-${init.id}" placeholder="Add a comment…" rows="2"></textarea>
+        <button class="comment-submit" onclick="addComment('${init.id}',event)">Post</button>
+      </div>
+    </div>
+  </div>`;
 }
 
-// ── INTERACTIONS ─────────────────────────────────────────────────
-function toggleActivity(initId, actId) {
-  const init = initiatives.find(i=>i.id===initId);
-  const act = init.activities.find(a=>a.id===actId);
-  act.done = !act.done;
-
-  // Update activity item style
-  const el = document.getElementById(`act-${actId}`);
-  if (act.done) { el.classList.add('done'); el.querySelector('.act-check').classList.add('checked'); }
-  else { el.classList.remove('done'); el.querySelector('.act-check').classList.remove('checked'); }
-
-  updateProgress(init);
+// ── INTERACTIONS ──────────────────────────────────────────────────
+function toggleExpand(id){
+  expanded[id]=!expanded[id];
+  const drop=document.getElementById(`drop-${id}`);
+  const chev=document.getElementById(`chev-${id}`);
+  const barExp=document.getElementById(`barexp-${id}`);
+  if(drop){drop.classList.toggle('open',expanded[id]);}
+  if(chev){chev.style.transform=`rotate(${expanded[id]?90:0}deg)`;}
+  if(barExp){barExp.classList.toggle('hidden',!expanded[id]);}
 }
 
-function updateProgress(init) {
-  const pct = getProgress(init);
-  // Update sidebar bar
-  const fill = document.getElementById(`prog-${init.id}`);
-  const pctEl = document.getElementById(`pct-${init.id}`);
-  if (fill) { fill.style.width = pct + '%'; fill.style.background = init.color; }
-  if (pctEl) pctEl.textContent = pct + '%';
-
-  // Update panel ring
-  if (currentInitId === init.id) {
-    const r=28; const circ=2*Math.PI*r;
-    const offset = circ - (pct/100)*circ;
-    const ring = document.querySelector('.prog-ring-fill');
-    const progText = document.querySelector('.prog-text');
-    const progSub = document.querySelector('.prog-sub');
-    if (ring) { ring.style.strokeDashoffset = offset; ring.style.stroke = init.color; }
-    if (progText) progText.textContent = pct+'%';
-    if (progSub) progSub.textContent = `${init.activities.filter(a=>a.done).length} of ${init.activities.length} activities done`;
+function toggleAct(initId,actId,e){
+  e&&e.stopPropagation();
+  const init=initiatives.find(i=>i.id===initId);
+  const act=init.activities.find(a=>a.id===actId);
+  act.done=!act.done;
+  const el=document.getElementById(`act-${actId}`);
+  if(el){
+    el.classList.toggle('done',act.done);
+    el.querySelector('.act-check').classList.toggle('checked',act.done);
   }
+  // Update section title
+  const pct=getPct(init);
+  const titleEl=document.querySelector(`#drop-${initId} .act-section-title`);
+  if(titleEl) titleEl.textContent=`Activities — ${init.activities.filter(a=>a.done).length}/${init.activities.length} done · ${pct}%`;
+  updateProgressBar(init);
+  saveState();
+}
+
+function updateProgressBar(init){
+  const pct=getPct(init);
+  const fill=document.getElementById(`prog-${init.id}`);
+  const pctEl=document.getElementById(`pct-${init.id}`);
+  if(fill){fill.style.width=pct+'%';}
+  if(pctEl){pctEl.textContent=pct+'%';}
+  // Update bar overlay
+  const overlay=document.querySelector(`#gbar-${init.id} .bar-progress-overlay`);
+  if(overlay){overlay.style.width=(100-pct)+'%';overlay.style.marginLeft=pct+'%';}
   updateOverall();
 }
 
-function getProgress(init) {
-  if (!init.activities.length) return 0;
-  return Math.round((init.activities.filter(a=>a.done).length / init.activities.length) * 100);
+function addAssignee(initId,e){
+  e&&e.stopPropagation();
+  const input=document.getElementById(`ainput-${initId}`);
+  const name=input?.value?.trim();
+  if(!name)return;
+  const init=initiatives.find(i=>i.id===initId);
+  if(!init.assignees.includes(name)){init.assignees.push(name);}
+  input.value='';
+  refreshDropdown(initId);
+  refreshSidebarAssignees(initId);
+  saveState();
 }
 
-function updateOverall() {
-  const allActs = initiatives.flatMap(i=>i.activities);
-  const pct = allActs.length ? Math.round(allActs.filter(a=>a.done).length/allActs.length*100) : 0;
-  document.getElementById('overallBar').style.width = pct+'%';
-  document.getElementById('overallPct').textContent = pct+'%';
+function removeAssignee(initId,name,e){
+  e&&e.stopPropagation();
+  const init=initiatives.find(i=>i.id===initId);
+  init.assignees=init.assignees.filter(a=>a!==name);
+  refreshDropdown(initId);
+  refreshSidebarAssignees(initId);
+  saveState();
 }
 
-function addAssignee(initId) {
-  const input = document.getElementById('newAssigneeInput');
-  const name = input.value.trim();
-  if (!name) return;
-  const init = initiatives.find(i=>i.id===initId);
-  if (!init.assignees.includes(name)) {
-    init.assignees.push(name);
-    // Update sidebar chips
-    const chips = document.getElementById(`chips-${initId}`);
-    if (chips) chips.innerHTML = init.assignees.map(a=>`<span class="assignee-chip" onclick="openPanel('${initId}')">${a}</span>`).join('') + `<span class="assignee-chip add-btn" onclick="openPanel('${initId}')">+ Add</span>`;
-    // Update panel
-    const panelAssignees = document.getElementById('panel-assignees');
-    if (panelAssignees) panelAssignees.innerHTML = init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="remove" onclick="removeAssignee('${initId}','${a}')">×</span></span>`).join('');
-  }
-  input.value = '';
+function addComment(initId,e){
+  e&&e.stopPropagation();
+  const author=document.getElementById(`cauthor-${initId}`)?.value?.trim()||'Team';
+  const text=document.getElementById(`ctext-${initId}`)?.value?.trim();
+  if(!text)return;
+  const init=initiatives.find(i=>i.id===initId);
+  const now=new Date();
+  init.comments.push({author,text,time:now.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})});
+  document.getElementById(`ctext-${initId}`).value='';
+  const cmtEl=document.getElementById(`cmts-${initId}`);
+  if(cmtEl) cmtEl.innerHTML=init.comments.map(c=>`<div class="comment-item">
+    <div class="comment-meta"><span class="comment-author">${c.author}</span><span>${c.time}</span></div>
+    <div class="comment-text">${c.text}</div>
+  </div>`).join('');
+  const titleEl=document.querySelector(`#drop-${initId} .act-section-title:last-of-type`);
+  const commentTitle=document.querySelector(`#drop-${initId} .comments-section .act-section-title`);
+  if(commentTitle) commentTitle.textContent=`Comments (${init.comments.length})`;
+  saveState();
 }
 
-function removeAssignee(initId, name) {
-  const init = initiatives.find(i=>i.id===initId);
-  init.assignees = init.assignees.filter(a=>a!==name);
-  const chips = document.getElementById(`chips-${initId}`);
-  if (chips) chips.innerHTML = init.assignees.map(a=>`<span class="assignee-chip" onclick="openPanel('${initId}')">${a}</span>`).join('') + `<span class="assignee-chip add-btn" onclick="openPanel('${initId}')">+ Add</span>`;
-  const panelAssignees = document.getElementById('panel-assignees');
-  if (panelAssignees) panelAssignees.innerHTML = init.assignees.map(a=>`<span class="assignee-tag">${a}<span class="remove" onclick="removeAssignee('${initId}','${a}')">×</span></span>`).join('');
+function refreshDropdown(initId){
+  const init=initiatives.find(i=>i.id===initId);
+  const drop=document.getElementById(`drop-${initId}`);
+  if(!drop)return;
+  const wasOpen=drop.classList.contains('open');
+  drop.innerHTML=renderDropdown(init);
+  if(wasOpen)drop.classList.add('open');
 }
 
-function toggleGroup(groupId) {
-  collapsed[groupId] = !collapsed[groupId];
+function refreshSidebarAssignees(initId){
+  const init=initiatives.find(i=>i.id===initId);
+  const assigneesEl=document.querySelector(`#sb-${initId} .assignees`);
+  if(assigneesEl) assigneesEl.innerHTML=init.assignees.map(a=>`<span class="assignee-chip">${a}</span>`).join('');
+}
+
+function toggleGroup(id){
+  collapsed[id]=!collapsed[id];
   render();
 }
 
-function filterTeam(team) {
-  activeFilter = team;
+function filterTeam(team,btn){
+  activeFilter=team;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn)btn.classList.add('active');
   render();
 }
 
-function matchesFilter(init) {
-  if (activeFilter==='all') return true;
-  if (activeFilter==='product') return init.group==='product-led';
-  return init.team.includes(activeFilter);
+function toggleCritical(cb){
+  showCritical=cb.checked;
+  document.getElementById('criticalToggle').classList.toggle('active',showCritical);
+  render();
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
+function switchView(view,btn){
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const gantt=document.getElementById('viewGantt');
+  const wl=document.getElementById('viewWorkload');
+  if(view==='gantt'){gantt.classList.add('active');gantt.classList.remove('hidden');wl.classList.remove('active');wl.classList.add('hidden');}
+  else{wl.classList.add('active');wl.classList.remove('hidden');gantt.classList.remove('active');gantt.classList.add('hidden');renderWorkload();}
+}
+
+// ── WORKLOAD VIEW ─────────────────────────────────────────────────
+function renderWorkload(){
+  const el=document.getElementById('viewWorkload');
+  const personMap={};
+  initiatives.filter(matchesFilter).forEach(init=>{
+    init.assignees.forEach(person=>{
+      if(!personMap[person])personMap[person]={name:person,initiatives:[],monthLoad:Array(12).fill(0)};
+      personMap[person].initiatives.push(init);
+      for(let m=init.start;m<init.end;m++) personMap[person].monthLoad[m]++;
+    });
+  });
+  const people=Object.values(personMap);
+  if(!people.length){el.innerHTML=`<p style="color:var(--muted);padding:40px;">No assignees found. Add assignees to initiatives to see workload.</p>`;return;}
+  const maxLoad=Math.max(...people.flatMap(p=>p.monthLoad),1);
+  el.innerHTML=`<div class="wl-title">Workload by Person</div>
+    <div class="wl-sub">Monthly initiative load per assignee · ${people.length} people across ${initiatives.filter(matchesFilter).length} initiatives</div>
+    ${people.map(p=>{
+      const initials=p.name.split('/').map(n=>n.trim()[0]).join('').substring(0,2).toUpperCase();
+      const avatar_color=['#4A9B8E','#C8903A','#C97B6A','#7A9E7E','#8A7A9E'][p.name.charCodeAt(0)%5];
+      return`<div class="wl-person">
+        <div class="wl-person-header">
+          <div class="wl-avatar" style="background:${avatar_color}">${initials}</div>
+          <div><div class="wl-name">${p.name}</div><div class="wl-count">${p.initiatives.length} initiative${p.initiatives.length!==1?'s':''}</div></div>
+          <div style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;max-width:340px;">
+            ${p.initiatives.map(i=>`<span class="wl-initiative-tag" style="background:${i.color}">${i.name.substring(0,20)}${i.name.length>20?'…':''}</span>`).join('')}
+          </div>
+        </div>
+        <div class="wl-months">
+          ${MONTHS.map((m,idx)=>{
+            const load=p.monthLoad[idx];
+            const h=load?Math.max(8,Math.round(load/maxLoad*60)):4;
+            const col=load===0?'var(--cream-dark)':load>=3?'var(--critical)':load===2?'var(--gold)':'var(--teal)';
+            return`<div class="wl-month-col">
+              <div class="wl-month-label">${m}</div>
+              <div style="display:flex;flex-direction:column;justify-content:flex-end;height:64px;">
+                <div class="wl-month-bar" style="height:${h}px;background:${col}"></div>
+              </div>
+              <div class="wl-month-num" style="color:${load>=3?'var(--critical)':load===2?'var(--gold)':'var(--muted)'}">${load||''}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+// ── DEPENDENCY ARROWS ─────────────────────────────────────────────
+function drawDeps(){
+  document.querySelectorAll('.dep-svg').forEach(s=>s.remove());
+  const ba=document.getElementById('barsArea');
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.classList.add('dep-svg');
+  svg.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;';
+  const areaRect=ba.getBoundingClientRect();
+  initiatives.filter(matchesFilter).forEach(init=>{
+    if(!init.deps||!init.deps.length)return;
+    const toRow=document.getElementById(`bar-${init.id}`);
+    if(!toRow||toRow.classList.contains('hidden'))return;
+    init.deps.forEach(depId=>{
+      const fromRow=document.getElementById(`bar-${depId}`);
+      if(!fromRow||fromRow.classList.contains('hidden'))return;
+      const fromInit=initiatives.find(i=>i.id===depId);
+      if(!fromInit)return;
+      const fromRect=fromRow.getBoundingClientRect();
+      const toRect=toRow.getBoundingClientRect();
+      const isCrit=showCritical&&init.critical&&fromInit.critical;
+      const x1=fromInit.end*MW-4,y1=fromRect.top-areaRect.top+fromRect.height/2;
+      const x2=init.start*MW+4,y2=toRect.top-areaRect.top+toRect.height/2;
+      const cx=(x1+x2)/2;
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('class',`dep-arrow${isCrit?' critical-dep':''}`);
+      path.setAttribute('d',`M${x1} ${y1} C${cx} ${y1},${cx} ${y2},${x2} ${y2}`);
+      const arrow=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+      arrow.setAttribute('class',`dep-head${isCrit?' critical-dep':''}`);
+      arrow.setAttribute('points',`${x2},${y2} ${x2-7},${y2-4} ${x2-7},${y2+4}`);
+      svg.appendChild(path);svg.appendChild(arrow);
+    });
+  });
+  ba.appendChild(svg);
+}
+
+// ── DRAG & RESIZE ─────────────────────────────────────────────────
+function setupDragResize(){
+  document.querySelectorAll('.gantt-bar').forEach(bar=>{
+    bar.addEventListener('mousedown',onBarMousedown);
+  });
+  document.querySelectorAll('.resize-handle').forEach(h=>{
+    h.addEventListener('mousedown',onResizeMousedown);
+  });
+}
+
+function onBarMousedown(e){
+  if(e.target.classList.contains('resize-handle'))return;
+  e.preventDefault();
+  const initId=e.currentTarget.dataset.id;
+  const init=initiatives.find(i=>i.id===initId);
+  if(!init)return;
+  const bar=e.currentTarget;
+  const startX=e.clientX;
+  const origStart=init.start,origEnd=init.end;
+  bar.classList.add('dragging');
+  dragState={init,bar,startX,origStart,origEnd};
+  document.addEventListener('mousemove',onDragMove);
+  document.addEventListener('mouseup',onDragUp);
+}
+
+function onDragMove(e){
+  if(!dragState)return;
+  const dx=e.clientX-dragState.startX;
+  const monthDelta=Math.round(dx/MW);
+  let ns=dragState.origStart+monthDelta;
+  let ne=dragState.origEnd+monthDelta;
+  if(ns<0){ne-=ns;ns=0;}
+  if(ne>12){ns-=(ne-12);ne=12;}
+  ns=Math.max(0,ns);ne=Math.min(12,ne);
+  if(ne<=ns)return;
+  dragState.init.start=ns;dragState.init.end=ne;
+  const bl=ns*MW+4,bw=(ne-ns)*MW-8;
+  dragState.bar.style.left=bl+'px';dragState.bar.style.width=bw+'px';
+}
+
+function onDragUp(){
+  if(dragState){dragState.bar.classList.remove('dragging');dragState=null;saveState();drawDeps();}
+  document.removeEventListener('mousemove',onDragMove);
+  document.removeEventListener('mouseup',onDragUp);
+}
+
+function onResizeMousedown(e){
+  e.preventDefault();e.stopPropagation();
+  const initId=e.currentTarget.dataset.id;
+  const side=e.currentTarget.dataset.side;
+  const init=initiatives.find(i=>i.id===initId);
+  const bar=document.getElementById(`gbar-${initId}`);
+  if(!init||!bar)return;
+  resizeState={init,bar,side,startX:e.clientX,origStart:init.start,origEnd:init.end};
+  document.addEventListener('mousemove',onResizeMove);
+  document.addEventListener('mouseup',onResizeUp);
+}
+
+function onResizeMove(e){
+  if(!resizeState)return;
+  const dx=e.clientX-resizeState.startX;
+  const md=Math.round(dx/MW);
+  if(resizeState.side==='right'){
+    const ne=Math.max(resizeState.origStart+1,Math.min(12,resizeState.origEnd+md));
+    resizeState.init.end=ne;
+  }else{
+    const ns=Math.min(resizeState.origEnd-1,Math.max(0,resizeState.origStart+md));
+    resizeState.init.start=ns;
+  }
+  const {start,end}=resizeState.init;
+  resizeState.bar.style.left=(start*MW+4)+'px';
+  resizeState.bar.style.width=((end-start)*MW-8)+'px';
+}
+
+function onResizeUp(){
+  if(resizeState){resizeState=null;saveState();drawDeps();}
+  document.removeEventListener('mousemove',onResizeMove);
+  document.removeEventListener('mouseup',onResizeUp);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+loadState();
 render();
 </script>
 </body>
